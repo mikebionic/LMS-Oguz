@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Talyp hasaba alyshygy</title>
+  <link rel="stylesheet" type="text/css" href="/static/login/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+  <link href="/static/login/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <img class="wave" src="/static/login/img/wave.png">
+  <div class="container">
+    <div class="img">
+      <img src="/static/login/img/name.svg">
+    </div>
+    <div class="login-content">
+      <form action="/login/student" method="POST">
+        <img src="/static/login/img/img-01.png">
+        <h2 class="title">Hos geldiniz Talyp</h2>
+              <div class="input-div one">
+                 <div class="i">
+                    <i class="fas fa-user"></i>
+                 </div>
+                 <div class="div">
+                   <input style="h5" type="text" class="input" placeholder="Ulanyjy adynyz" name="username">
+                 </div>
+              </div>
+              <div class="input-div pass">
+                 <div class="i"> 
+                    <i class="fas fa-lock"></i>
+                 </div>
+                 <div class="div">
+                    
+                    <input style="h5" type="password" class="input" placeholder="Gizlin achar" name="password">
+                 </div>
+              </div>
+             
+              <input type="submit" class="btn" value="Hasaba al">
+            </form>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}  
+          {% endif %}
+        {% endwith %} 
+    </div>
+    <script type="text/javascript" src="/static/login/js/main.js"></script>
+</body>
+</html>

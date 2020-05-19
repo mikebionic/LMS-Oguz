@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin</title>
+  <link rel="stylesheet" type="text/css" href="/static/login/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+  <link href="/static/login/css/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+  <img class="wave" src="/static/login/img/wave.png">
+  <div class="container">
+    <div class="img">
+      <img src="/static/login/img/prog.svg">
+    </div>
+    <div class="login-content">
+      <form action="index.html">
+        <img src="/static/login/img/img-01.png">
+        <h2 class="title">Hos geldiniz Admin</h2>
+              <div class="input-div one">
+                 <div class="i">
+                    <i class="fas fa-user"></i>
+                 </div>
+                 <div class="div">
+                    
+                    <input style="h5" type="text" class="input" placeholder="Ulanyjy adynyz">
+                 </div>
+              </div>
+              <div class="input-div pass">
+                 <div class="i"> 
+                    <i class="fas fa-lock"></i>
+                 </div>
+                 <div class="div">
+                    <h5>Gizlin achar</h5>
+                    <input type="password" class="input">
+                 </div>
+              </div>
+             
+              <input type="submit" class="btn" value="Hasaba al">
+            </form>
+        </div>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">
+                {{ message }}
+              </div>
+            {% endfor %}  
+          {% endif %}
+        {% endwith %} 
+    </div>
+    <script type="text/javascript" src="/static/login/js/main.js"></script>
+</body>
+</html>
