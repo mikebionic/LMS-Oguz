@@ -42,11 +42,13 @@
 <div align="center" style="padding-top: 30px; padding-bottom: 30px;">
 	<label >Dersiň ady:</label>
     <select>
-      <option>Computer Programming</option>
-      <option>Web programming Practice</option>
-      <option>Computer Network</option>
-      <option>Political Science</option>
-      <option>Mobile device Programming</option>
+      {% for lesson in lessons %}
+        <option>{{lesson.subject}}</option>
+      {% endfor %}
+        <option>Web programming Practice</option>
+        <option>Computer Network</option>
+        <option>Political Science</option>
+        <option>Mobile device Programming</option>
     </select>
 </div>
 <div class="container-fluid">
@@ -58,9 +60,7 @@
       <th scope="col">Dersin ady</th>
       <th scope="col">Teman ady</th>
       <th scope="col">Ugry</th>
-      <th colspan="2">Amallar</th>
-      
-      
+      <th colspan="2">Amallar</th>      
     </tr>
   </thead>
   <tbody>
@@ -72,7 +72,7 @@
         <td>{{lesson.lesson_theme}}</td>
         <td>{{lesson.major}}</td>
         <td>Edit</td>	  
-  	    <td>Delete</td>
+  	    <td><a href="/lessons/delete/{{lesson.id}}">Delete</a></td>
       </tr>
     {% endfor %}
     <tr>

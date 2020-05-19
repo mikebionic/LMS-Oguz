@@ -21,6 +21,9 @@
     <div class="form-group col-md-6">
       <label for="Mugallym">Mugallym:</label>
     <select class="form-control" id="Mugallym">
+      {% for teacher in teachers %}
+        <option>{{teacher.full_name}}</option>
+      {% endfor %}
       <option>Dovlet Saryyev</option>
       <option>Annamyrat Gylyjov</option>
       <option>Mergen Atayev</option>
@@ -31,6 +34,9 @@
     <div class="form-group col-md-6">
       <label for="Ugry">Ugry:</label>
     <select class="form-control" id="ugry">
+      {% for lesson in lessons %}
+        <option>{{lesson.major}}</option>
+      {% endfor %}
       <option>Maglumat Ulgamlary we Tehnologiyalary</option>
       <option>Informatika we hasaplayys tehnikasy</option>
       <option>Innowatika</option>
@@ -41,6 +47,9 @@
     <div class="form-group col-md-6">
       <label for="Ders">Dersiň ady:</label>
     <select class="form-control" id="ders">
+      {% for lesson in lessons %}
+        <option>{{lesson.subject}}</option>
+      {% endfor %}
       <option>Computer Programming</option>
       <option>Web programming Practice</option>
       <option>Computer Network</option>
@@ -52,7 +61,6 @@
       <label for="inputTema">Temanyň ady:</label>
       <input type="text" class="form-control" id="inputTema" placeholder="Temanyň adyny giriziň">
     </div>
-   
    <div class="form-group col-md-12" align="center">
    <button type="button" class="btn btn-light">OK</button>   
    </div>   
@@ -61,10 +69,12 @@
   </div>  
 </form>
 
-
    <div align="center" style="padding-top: 30px; padding-bottom: 30px;">
   <label >Dersiň ady:</label>
     <select>
+      {% for lesson in lessons %}
+        <option>{{lesson.subject}}</option>
+      {% endfor %}
       <option>Computer Programming</option>
       <option>Web programming Practice</option>
       <option>Computer Network</option>
@@ -72,9 +82,6 @@
       <option>Mobile device Programming</option>
     </select>
 </div>
-
-
-
 
 <div class="container-fluid">
   <table class="table table-hover">
@@ -90,7 +97,18 @@
       
     </tr>
   </thead>
-  <tbody style="text-align: center;"">
+  <tbody style="text-align: center;">
+    {% for lesson in lessons %}
+      <tr>
+        <th scope="row">{{lesson.id}}</th>
+        <td><a href="/static/attachments/{{lesson.attachment}}">{{lesson.attachment}}</a></td>
+        <td>{{lesson.subject}}</td>
+        <td>{{lesson.lesson_theme}}</td>
+        <td>{{lesson.major}}</td>
+        <td>Edit</td>   
+        <td><a href="/lessons/delete/{{lesson.id}}">Delete</a></td>
+      </tr>
+    {% endfor %}
     <tr>
       <th scope="row">1</th>
       <td>network.pdf</td>

@@ -79,10 +79,21 @@ def teacher():
 			redirect('/teacher')
 	return render_template ("teacher/teacher.html",form=form)
 
+@app.route("/lessons/delete/<int:lessonId>",methods=['GET','PUT','DELETE'])
+@login_required
+def delete_lesson(lessonId):
+	lesson = Lessons.query.get(lessonId)
+	db.session.delete(lesson)
+	db.session.commit()
+	flash('successfully deleted!')
+	return redirect('/teacher')
+
 @app.route("/student")
+@login_required
 def student():
+	teachers = User.query.filter_by(user_type="teacher").all()
 	lessons = Lessons.query.all()
-	return render_template ("student/student.html",lessons=lessons,form=form)
+	return render_template ("student/student.html",lessons=lessons,teachers=teachers)
 
 #############################
 
