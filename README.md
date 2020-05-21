@@ -1,5 +1,5 @@
-# lessonShare
-lesson sharer web app
+# LMS
+Lesson Management System Web App
 ## required
 > Flask, Flask-Sqlalchemy, Pillow
 ## for migration or table Drop:
