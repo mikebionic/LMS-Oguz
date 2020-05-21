@@ -34,27 +34,17 @@
     <div class="form-group col-md-6">
       <label for="Ugry">Ugry:</label>
     <select class="form-control" id="ugry">
-      {% for lesson in lessons %}
-        <option>{{lesson.major}}</option>
+      {% for major in majors %}
+        <option>{{major.major_name}}</option>
       {% endfor %}
-      <option>Maglumat Ulgamlary we Tehnologiyalary</option>
-      <option>Informatika we hasaplayys tehnikasy</option>
-      <option>Innowatika</option>
-      <option>Biotehnologiya</option>
-      <option>Awtomatlastyrmak we dolandyrmak</option>
     </select>
     </div>
     <div class="form-group col-md-6">
       <label for="Ders">Dersiň ady:</label>
     <select class="form-control" id="ders">
-      {% for lesson in lessons %}
-        <option>{{lesson.subject}}</option>
+      {% for subject in subjects %}
+        <option>{{subject.subject_name}}</option>
       {% endfor %}
-      <option>Computer Programming</option>
-      <option>Web programming Practice</option>
-      <option>Computer Network</option>
-      <option>Political Science</option>
-      <option>Mobile device Programming</option>
     </select>
     </div>
     <div class="form-group col-md-6">
@@ -72,14 +62,9 @@
    <div align="center" style="padding-top: 30px; padding-bottom: 30px;">
   <label >Dersiň ady:</label>
     <select>
-      {% for lesson in lessons %}
-        <option>{{lesson.subject}}</option>
+      {% for subject in subjects %}
+        <option>{{subject.subject_name}}</option>
       {% endfor %}
-      <option>Computer Programming</option>
-      <option>Web programming Practice</option>
-      <option>Computer Network</option>
-      <option>Political Science</option>
-      <option>Mobile device Programming</option>
     </select>
 </div>
 
@@ -102,45 +87,25 @@
       <tr>
         <th scope="row">{{lesson.id}}</th>
         <td><a href="/static/attachments/{{lesson.attachment}}">{{lesson.attachment}}</a></td>
-        <td>{{lesson.subject}}</td>
-        <td>{{lesson.lesson_theme}}</td>
-        <td>{{lesson.major}}</td>
+        <td>
+          {% for subject in subjects %}
+            {{ subject.subject_name if subject.id==lesson.subjectId }}
+          {% endfor %}
+        </td>
+        <td>{{lesson.lesson_name}}</td>
+        <td>
+          {% for major in majors %}
+            {{ major.major_name if major.id==lesson.majorId }}
+          {% endfor %}
+        </td>
         <td>Edit</td>   
         <td><a href="/lessons/delete/{{lesson.id}}">Delete</a></td>
       </tr>
     {% endfor %}
-    <tr>
-      <th scope="row">1</th>
-      <td>network.pdf</td>
-      <td>Computer Network</td>
-      <td>Firewall</td>
-      <td>Maglumat ulgamlary we tehnologiyalary</td>
-      <td>Edit</td>   
-    <td>Delete</td>
-
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>File Name</td>
-      <td>Theme</td>
-      <td>Teman Ady</td>
-      <td>Maglumat ulgamlary we tehnologiyalary</td>
-      <td>Edit</td>
-    <td>Delete</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry the Bird</td>
-      <td>@twitter</td>
-      <td>info</td>
-      <td>Innovatika</td>
-      <td>Edit</td>
-    <td>Delete</td>
-    </tr>
   </tbody>
 </table>
 </div>
 
-<script type="text/javascript" src="/static/student/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/student/bootstrap-4/js/bootstrap.min.js"></script>
 </body>
 </html>

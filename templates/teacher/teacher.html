@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	 <title>Sapak yuklemek</title>
-	 
+	<title>Sapak yuklemek</title>
 	<link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
 </head>
 <body>
@@ -14,18 +13,17 @@
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="Ugry">{{ form.major.label }}</label>
-      {{ form.major(class="form-control",placeholder="Temanyň adyny giriziň")}}
+      {{form.major(class="form-control")}}
     </div>
     <div class="form-group col-md-6">
       <label for="Ders">{{ form.subject.label }}</label>
-      {{ form.subject(class="form-control",placeholder="Temanyň adyny giriziň")}}
+      {{form.subject(class="form-control")}}
     </div>
     <div class="form-group col-md-6">
-      <label for="inputTema">{{ form.lesson_theme.label }}</label>
-      {{ form.lesson_theme(class="form-control",placeholder="Temanyň adyny giriziň")}}
+      <label for="inputTema">{{ form.lesson_name.label }}</label>
+      {{ form.lesson_name(class="form-control",placeholder="Temanyň adyny giriziň")}}
     </div>
-
-   <div class="form-group col-md-6">
+  <div class="form-group col-md-6">
   <label>{{ form.attachment.label }}</label>
   {{ form.attachment(class="custom-file-input") }}
   <label class="custom-file-label" for="customFile" style="margin-top: 32px;">Fayl saylaň</label>
@@ -42,13 +40,9 @@
 <div align="center" style="padding-top: 30px; padding-bottom: 30px;">
 	<label >Dersiň ady:</label>
     <select>
-      {% for lesson in lessons %}
-        <option>{{lesson.subject}}</option>
+      {% for subject in subjects %}
+        <option>{{subject.subject_name}}</option>
       {% endfor %}
-        <option>Web programming Practice</option>
-        <option>Computer Network</option>
-        <option>Political Science</option>
-        <option>Mobile device Programming</option>
     </select>
 </div>
 <div class="container-fluid">
@@ -68,34 +62,25 @@
       <tr>
         <th scope="row">{{lesson.id}}</th>
         <td><a href="/static/attachments/{{lesson.attachment}}">{{lesson.attachment}}</a></td>
-        <td>{{lesson.subject}}</td>
-        <td>{{lesson.lesson_theme}}</td>
-        <td>{{lesson.major}}</td>
+        <td>
+          {% for subject in subjects %}
+            {{ subject.subject_name if subject.id==lesson.subjectId }}
+          {% endfor %}
+        </td>
+        <td>{{lesson.lesson_name}}</td>
+        <td>
+          {% for major in majors %}
+            {{ major.major_name if major.id==lesson.majorId }}
+          {% endfor %}
+        </td>
         <td>Edit</td>	  
   	    <td><a href="/lessons/delete/{{lesson.id}}">Delete</a></td>
       </tr>
     {% endfor %}
-    <tr>
-      <th scope="row">2</th>
-      <td>File Name</td>
-      <td>Theme</td>
-      <td>Teman Ady</td>
-      <td>Maglumat ulgamlary we tehnologiyalary</td>
-      <td>Edit</td>
-	  <td>Delete</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-      <td>Innovatika</td>
-      <td>Edit</td>
-	  <td>Delete</td>
-    </tr>
   </tbody>
 </table>
 </div>
 
-<script type="text/javascript" src="/static/teacher/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/teacher/bootstrap-4/js/bootstrap.min.js"></script>
 </body>
 </html>

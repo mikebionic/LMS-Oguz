@@ -2,7 +2,7 @@ from flask import Flask,render_template,url_for,flash,redirect,request,Response,
 from flask_login import login_user, current_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from forms import PostLessonForm,UploadFileForm
+# from forms import PostLessonForm,UploadFileForm
 
 # ### imports for file operations
 import os,secrets
@@ -28,17 +28,30 @@ login_manager.login_message = 'Programma girin!'
 login_manager.login_message_category = 'info'
 
 
-
 # #### lessons db and CRUD #####
+
+### lesson models ###
 
 class Lessons(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
-	lesson_theme = db.Column(db.String(100),nullable =False)
-	subject = db.Column(db.String(100))
-	major = db.Column(db.String(100))
+	lesson_name = db.Column(db.String(100),nullable =False)
 	date_added = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
 	attachment = db.Column(db.String(500))
-	teacherId = db.Column(db.Integer)
+	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
+	subjectId = db.Column(db.Integer,db.ForeignKey("subjects.id"))
+	majorId = db.Column(db.Integer,db.ForeignKey("majors.id"))
+
+class Subjects(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	subject_name = db.Column(db.String(100),nullable=False)
+	lessons = db.relationship('Lessons',backref='subjects',lazy=True)
+
+class Majors(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	major_name = db.Column(db.String(100),nullable=False)
+	lessons = db.relationship('Lessons',backref='majors',lazy=True)
+
+###  end of lesson models ###
 
 def save_attachment(form_attachment):
 	random_hex = secrets.token_hex(8)
@@ -54,30 +67,35 @@ def save_attachment(form_attachment):
 @login_required
 def teacher():
 	form = PostLessonForm()
+	majors = Majors.query.all()
+	subjects = Subjects.query.all()
+
 	if request.method == 'GET':
 		lessons = Lessons.query.all()
-		return render_template ("teacher/teacher.html",lessons=lessons,form=form)
+		return render_template ("teacher/teacher.html",
+			lessons=lessons,subjects=subjects,majors=majors,form=form)
 	if request.method == 'POST':
-		print('post request')
-		if form.validate_on_submit():
-			lesson = {
-				'lesson_theme':form.lesson_theme.data,
-				'subject':form.subject.data,
-				'major':form.major.data,
-				'teacherId':current_user.id
-			}
-			print(lesson)
-			if form.attachment.data:
-				attachment_file = save_attachment(form.attachment.data)
-				lesson.update({'attachment':attachment_file})
-			print(lesson)
-			newLesson = Lessons(**lesson)
-			db.session.add(newLesson)
-			db.session.commit()
-			print('lesson success')
-			flash('Lesson successfully added', 'success')
-			redirect('/teacher')
-	return render_template ("teacher/teacher.html",form=form)
+		# if form.validate_on_submit():
+		print('getting data')
+		print(form.subject.data)
+		lesson = {
+			'lesson_name':form.lesson_name.data,
+			'subjectId':form.subject.data,
+			'majorId':form.major.data,
+			'teacherId':current_user.id
+		}
+		print(lesson)
+		if form.attachment.data:
+			attachment_file = save_attachment(form.attachment.data)
+			lesson.update({'attachment':attachment_file})
+		print(lesson)
+		newLesson = Lessons(**lesson)
+		db.session.add(newLesson)
+		db.session.commit()
+		print('lesson success')
+		flash('Lesson successfully added', 'success')
+		redirect('/teacher')
+	return render_template ("teacher/teacher.html",subjects=subjects,majors=majors,form=form)
 
 @app.route("/lessons/delete/<int:lessonId>",methods=['GET','PUT','DELETE'])
 @login_required
@@ -93,11 +111,12 @@ def delete_lesson(lessonId):
 def student():
 	teachers = User.query.filter_by(user_type="teacher").all()
 	lessons = Lessons.query.all()
-	return render_template ("student/student.html",lessons=lessons,teachers=teachers)
+	majors = Majors.query.all()
+	subjects = Subjects.query.all()
+	return render_template ("student/student.html",
+		subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
 
 #############################
-
-
 
 
 # #### auth and login routes ####
@@ -113,6 +132,7 @@ class User(db.Model, UserMixin):
 	full_name = db.Column(db.String(100))
 	password = db.Column(db.String(100), nullable=False)
 	user_type = db.Column(db.String(100))
+	lessons = db.relationship('Lessons',backref='user',lazy=True)
 	def __repr__ (self):
 		return f"User('{self.username}')"
 
@@ -221,6 +241,58 @@ def register():
 
 #  #### end of login routes ####
 
+
+### forms ###
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField,FileAllowed
+from wtforms import StringField,SubmitField,BooleanField,TextAreaField,SelectField
+from wtforms.validators import DataRequired,Length,ValidationError
+# from routes import Lessons,Majors,Subjects,Users
+
+
+# class PostLessonForm(FlaskForm):
+# 	lesson_theme = StringField('Temanyň ady:',validators=[DataRequired()])
+# 	subject = StringField('Dersiň ady:',validators=[DataRequired()])
+# 	major = StringField('Ugry:',validators=[DataRequired()])
+# 	attachment = FileField('Sapak yuklaň:',validators=[FileAllowed(
+# 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
+# 	submit = SubmitField('Yukle')
+
+def getMajors():
+	majorsList=[]
+	majors = Majors.query.all()
+	for major in majors:
+		obj=(major.id,major.major_name)
+		majorsList.append(obj)
+	return majorsList
+
+def getSubjects():
+	subjectsList=[]
+	subjects = Subjects.query.all()
+	for subject in subjects:
+		obj=(subject.id,subject.subject_name)
+		subjectsList.append(obj)
+	return subjectsList
+
+# usersList=[]
+# for profile in User:
+# 	usersList.append(profile)
+
+class UploadFileForm(FlaskForm):
+	file = FileField('Upload File')
+	submit = SubmitField('Upload')
+
+class PostLessonForm(FlaskForm):
+	lesson_name = StringField('Temanyň ady:',validators=[DataRequired()])
+	subject = SelectField('Dersiň ady:',choices=getSubjects(),validators=[DataRequired()])
+	major = SelectField('Ugry:',choices=getMajors(),validators=[DataRequired()])
+	# teacher = StringField('Ugry:',choices=majorsList,validators=[DataRequired()])
+	attachment = FileField('Sapak yuklaň:',validators=[FileAllowed(
+		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
+	submit = SubmitField('Yukle')
+
+
+########
 
 if __name__ == "__main__":
 	app.run(host="0.0.0.0" , port=5000 , debug=True)
