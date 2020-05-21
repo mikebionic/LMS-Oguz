@@ -72,12 +72,12 @@ def teacher():
 
 	if request.method == 'GET':
 		lessons = Lessons.query.all()
+		majors = Majors.query.all()
+		subjects = Subjects.query.all()
 		return render_template ("teacher/teacher.html",
 			lessons=lessons,subjects=subjects,majors=majors,form=form)
 	if request.method == 'POST':
 		# if form.validate_on_submit():
-		print('getting data')
-		print(form.subject.data)
 		lesson = {
 			'lesson_name':form.lesson_name.data,
 			'subjectId':form.subject.data,
@@ -94,7 +94,7 @@ def teacher():
 		db.session.commit()
 		print('lesson success')
 		flash('Lesson successfully added', 'success')
-		redirect('/teacher')
+		return redirect('/teacher')
 	return render_template ("teacher/teacher.html",subjects=subjects,majors=majors,form=form)
 
 @app.route("/lessons/delete/<int:lessonId>",methods=['GET','PUT','DELETE'])
