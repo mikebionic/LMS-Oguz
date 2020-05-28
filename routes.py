@@ -53,6 +53,9 @@ class Majors(db.Model):
 
 ###  end of lesson models ###
 
+
+#### interactive pages of view ####
+
 def save_attachment(form_attachment):
 	random_hex = secrets.token_hex(8)
 	_, f_ext = os.path.splitext(form_attachment.filename)
@@ -66,6 +69,9 @@ def save_attachment(form_attachment):
 @app.route("/teacher",methods=['GET','POST'])
 @login_required
 def teacher():
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
 	form = PostLessonForm()
 	majors = Majors.query.all()
 	subjects = Subjects.query.all()
@@ -117,6 +123,31 @@ def student():
 		subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
 
 #############################
+
+
+######## admin page functions ########
+
+@app.route("/admin")
+@login_required
+def admin():
+	if(current_user.user_type!="admin"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+
+	return render_template("admin/admin.html")
+
+
+@app.route("/teacher_list")
+@login_required
+def teacher_list():
+	return render_template("admin/teacher_list.html")
+
+@app.route("/student_list")
+@login_required
+def student_list():
+	return render_template("admin/student_list.html")
+
+##############################################
 
 
 # #### auth and login routes ####
@@ -201,8 +232,30 @@ def teacher_login():
 			print(ex)
 	return render_template ("login/teacher_login.html")
 
-@app.route("/login/admin")
+@app.route("/login/admin",methods=['GET','POST'])
 def admin_login():
+	if request.method == 'GET':
+		if current_user.is_authenticated:
+			return redirect("/admin")
+		return render_template ("login/admin_login.html")
+	if request.method == 'POST':
+		username = request.form.get("username")
+		password = request.form.get("password")
+		try:
+			user = User.query.filter_by(username=username).first()
+			if user:
+				if(user.user_type!="admin"):
+					redirect("/")
+				if(user and user.password==password):
+					login_user(user)
+					next_page = request.args.get('next')
+					return redirect(next_page) if next_page else redirect("/admin")
+				else:
+					flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
+			else:
+				flash(f'Login ýalňyşlygy, ulanyjy admin dal!','danger')
+		except ValueError as ex:
+			print(ex)
 	return render_template ("login/admin_login.html")
 
 @app.route("/logout")

@@ -73,6 +73,19 @@ db.session.add(major)
 major = Majors(major_name="Awtomatlastyrmak we dolandyrmak")
 db.session.add(major)
 
+admin = User(username="admin",password="admin123",
+	user_type="admin",full_name="Administrator")
+db.session.add(admin)
+
+student = User(username="student",password="123",
+	user_type="student",full_name="Ata Atajanow")
+db.session.add(student)
+
+teacher = User(username="teacher",password="123",
+	user_type="teacher",full_name="Plan Planyyew")
+db.session.add(teacher)
+
+
 db.session.commit()
 
 # if __name__ == "__main__":
