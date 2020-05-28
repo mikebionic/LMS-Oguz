@@ -12,7 +12,7 @@
 <style type="text/css">
   body{
     background: #eeeeee;
-    font-family: 'Varela Round', sans-serif;
+    
   }
     .form-inline {
         display: inline-block;
@@ -30,21 +30,14 @@
   }
   .navbar img {
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 45px;
+    height: 46px;
     margin-right: 10px;
   }
-  .navbar .navbar-brand {
-    color: #efe5ff;
-    padding-left: 0;
-    padding-right: 50px;
-    font-size: 24px;    
-  }
-  .navbar .navbar-brand:hover, .navbar .navbar-brand:focus {
-    color: #fff;
-  }
-  .navbar .navbar-brand i {
-    font-size: 25px;
+  
+ 
+  .navbar label {
+    font-size: 18px;
     margin-right: 5px;
   }
   .search-box {
@@ -190,7 +183,7 @@
 <body>
 <nav class="navbar navbar-inverse navbar-expand-xl navbar-dark">
   <div class="navbar-header d-flex col">
-    <a class="navbar-brand" href="#"><i class="fa fa-cube"></i>Brand<b>Name</b></a>     
+    <img src="/static/teacher/img/img-01.png" class="i" ><label><strong>Oguz Han adynadky Inzenener we Tehnologiyalar Universitety</strong></label>    
     <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
       <span class="navbar-toggler-icon"></span>
       <span class="icon-bar"></span>
@@ -202,27 +195,23 @@
   <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">    
     <form class="navbar-form form-inline">
       <div class="input-group search-box">                
-        <input type="text" id="search" class="form-control" placeholder="Search here...">
+        <input type="text" id="search" class="form-control" placeholder="Gözle...">
         <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
       </div>
     </form>
-    <ul class="nav navbar-nav navbar-right ml-auto">
-      <li class="nav-item active"><a href="/" class="nav-link"><i class="fa fa-home"></i><span>Baş sahypa</span></a></li>
+    <ul class="nav navbar-nav navbar-right ml-auto">      
       <li class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="https://www.tutorialrepublic.com/examples/images/avatar/3.jpg" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.jpg"" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
         <ul class="dropdown-menu">
-          <li><a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profil</a></li>
-          <!-- <li><a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a></li> -->
-          <li><a href="#" class="dropdown-item"><i class="fa fa-sliders"></i>Sazlamalar</a></li>
-          <li class="divider dropdown-divider"></li>
+          
           <li><a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Ulgamdan çyk</a></li>
         </ul>
       </li>
     </ul>
   </div>
 </nav>
-<img src="/static/student/img/img-01.png" style="align-items: center; width: 90px; height: 80px; justify-content: center;"><label><strong>Oguz Han adynadky Inzenener we Tehnologiyalar Universiteti</strong></label>
-      <h4 style="margin: 15px 0;margin-top: 0 ; color: #333;  text-transform: uppercase; text-align: center;">Hos geldiniz!</h4>
+
+      <h4 style="margin: 15px 0;margin-top: 10px ; color: #333;  text-transform: uppercase; text-align: center;">Hoş geldiňiz!</h4>
 
 <div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f) ">
 <form>
@@ -278,36 +267,36 @@
 </div>
 
 <div class="container-fluid">
-  <table class="table table-hover">
-  <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); text-align: center;">
+  <table class="table table-hover" style="text-align: center;">
+  <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); justify-content:center;">
     <tr>
       <th scope="col">t/b</th>
-      <th scope="col">Fayl</th>
-      <th scope="col">Dersin ady</th>
-      <th scope="col">Teman ady</th>
-      <th scope="col">Ugry</th>
-      <th scope="col">Amallar</th>
-      
-      
+      <th scope="col" style="text-align: center;">Fayl</th>
+      <th scope="col"style="text-align: center;">Dersin ady</th>
+      <th scope="col"style="text-align: center;">Teman ady</th>
+      <th scope="col"style="text-align: center;">Mugallym</th>
+      <th scope="col"style="text-align: center;">Ugry</th>
+      <th scope="col"style="text-align: center;">Amallar</th>           
     </tr>
   </thead>
   <tbody style="text-align: center;">
     {% for lesson in lessons %}
       <tr>
-        <th scope="row">{{lesson.id}}</th>
-        <td><a href="/static/attachments/{{lesson.attachment}}">{{lesson.attachment}}</a></td>
+        <th scope="row" >{{lesson.id}}</th>
+        <td>{{lesson.attachment}}</td>
         <td>
           {% for subject in subjects %}
             {{ subject.subject_name if subject.id==lesson.subjectId }}
           {% endfor %}
         </td>
         <td>{{lesson.lesson_name}}</td>
+        <td>imya uchitela</td>
         <td>
           {% for major in majors %}
             {{ major.major_name if major.id==lesson.majorId }}
           {% endfor %}
         </td>
-        <td>Ýükle</td>   
+        <td><a href="/static/attachments/{{lesson.attachment}}">Ýükle</a></td>   
        
       </tr>
     {% endfor %}
