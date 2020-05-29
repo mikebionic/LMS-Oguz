@@ -39,6 +39,8 @@ class User(db.Model, UserMixin):
 	id = db.Column(db.Integer,primary_key=True)
 	username = db.Column(db.String(50),unique=True,nullable =False)
 	full_name = db.Column(db.String(100))
+	department = db.Column(db.String(225))
+	student_id = db.Column(db.String(25))
 	password = db.Column(db.String(100), nullable=False)
 	user_type = db.Column(db.String(100))
 	lessons = db.relationship('Lessons',backref='user',lazy=True)

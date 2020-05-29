@@ -175,7 +175,7 @@
     
     <ul class="nav navbar-nav navbar-right ml-auto">      
       <li class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.png" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.png" class="avatar" alt="Avatar">{{current_user.username}}</a>
         <ul class="dropdown-menu">          
           <li class="divider dropdown-divider"></li>
           <li><a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Ulgamdan çyk</a></li>
@@ -196,11 +196,11 @@
   {% endif %}
 {% endwith %}
 <div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f) ">
-<form>
+<form method="POST" action="/sort/subjects">
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="Mugallym">Mugallym:</label>
-    <select class="form-control" id="Mugallym">
+    <select name="teacher" class="form-control" id="Mugallym">
       {% for teacher in teachers %}
         <option>{{teacher.full_name}}</option>
       {% endfor %}
@@ -213,7 +213,7 @@
     </div>    
     <div class="form-group col-md-6">
       <label for="Ders">Dersiň ady:</label>
-    <select class="form-control" id="ders">
+    <select name="subject" class="form-control" id="ders">
       {% for subject in subjects %}
         <option>{{subject.subject_name}}</option>
       {% endfor %}
@@ -221,7 +221,7 @@
     </div>
    
    <div class="form-group col-md-12" align="center">
-   <button type="button" class="btn btn-light">OK</button>   
+   <button type="submit" class="btn btn-light">OK</button>   
    </div>   
   </div>      
 </form>

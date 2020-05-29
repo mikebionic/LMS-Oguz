@@ -122,30 +122,121 @@ def student():
 	return render_template ("student/student.html",
 		subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
 
+
+@app.route("/sort/subjects",methods=['GET','POST'])
+@login_required
+def sort_lessons():
+	if request.method == 'POST':
+		print(request.form)
+		teacher = request.form.get("teacher")
+		subject = request.form.get("subject")
+		try:
+			# teacher = User.query.get(teacher)
+			# subject = Subjects.query.get(subject)
+			lessons = Lessons.query.filter_by(subjectId=subject,teacherId=teacher).all()
+			return redirect("/student",lessons=lessons)
+		except:
+			print('error')
+
+	teachers = User.query.filter_by(user_type="teacher").all()
+	lessons = Lessons.query.all()
+	majors = Majors.query.all()
+	subjects = Subjects.query.all()
+	return render_template ("student/student.html",
+		subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
+
+
 #############################
 
 
 ######## admin page functions ########
 
-@app.route("/admin")
-@login_required
-def admin():
-	if(current_user.user_type!="admin"):
-		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
-
-	return render_template("admin/admin.html")
-
-
 @app.route("/teacher_list")
 @login_required
 def teacher_list():
-	return render_template("admin/teacher_list.html")
+	if(current_user.user_type!="admin"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	teachers = User.query.filter_by(user_type='teacher').all()
+	return render_template("admin/teacher_list.html",teachers=teachers)
 
 @app.route("/student_list")
 @login_required
 def student_list():
-	return render_template("admin/student_list.html")
+	if(current_user.user_type!="admin"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	students = User.query.filter_by(user_type='student').all()
+	return render_template("admin/student_list.html",students=students)
+
+
+@app.route("/admin/teacher_manage",methods=['POST'])
+@login_required
+def teacher_manage():
+	if request.method == 'POST':
+		print(request.form)
+		username = request.form.get("username")
+		department = request.form.get("department")
+		password = request.form.get("password")
+		try:
+			user_type = 'teacher'
+			user = User(username=username,password=password,
+				user_type=user_type,department=department)
+			db.session.add(user)
+			db.session.commit()
+			flash('Mugallym akaunt doredi!','success')
+			return redirect("/teacher_list") 
+		except:
+			flash('Ýalňyşlyk ýuze çykdy!','danger')
+			return redirect("/teacher_list")
+
+
+@app.route("/admin/student_manage",methods=['POST'])
+@login_required
+def student_manage():
+	if request.method == 'POST':
+		print(request.form)
+		username = request.form.get("username")
+		student_id = request.form.get("student_id")
+		password = request.form.get("password")
+		try:
+			user_type = 'student'
+			user = User(username=username,password=password,
+				user_type=user_type,student_id=student_id)
+			db.session.add(user)
+			db.session.commit()
+			flash('Talyp akaunt doredi!','success')
+			return redirect("/student_list") 
+		except:
+			flash('Ýalňyşlyk ýuze çykdy!','danger')
+			return redirect("/student_list")
+
+
+#### delete methods ####
+
+@app.route("/students/delete/<int:id>")
+@login_required
+def delete_student(id):
+	if(current_user.user_type!="admin"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	student = User.query.get(id)
+	db.session.delete(student)
+	db.session.commit()
+	flash('successfully deleted!')
+	return redirect('/student_list')
+
+@app.route("/teachers/delete/<int:id>")
+@login_required
+def delete_teacher(id):
+	if(current_user.user_type!="admin"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	teacher = User.query.get(id)
+	db.session.delete(teacher)
+	db.session.commit()
+	flash('successfully deleted!')
+	return redirect('/teacher_list')
 
 ##############################################
 
@@ -161,6 +252,8 @@ class User(db.Model, UserMixin):
 	id = db.Column(db.Integer,primary_key=True)
 	username = db.Column(db.String(50),unique=True,nullable =False)
 	full_name = db.Column(db.String(100))
+	department = db.Column(db.String(225))
+	student_id = db.Column(db.String(25))
 	password = db.Column(db.String(100), nullable=False)
 	user_type = db.Column(db.String(100))
 	lessons = db.relationship('Lessons',backref='user',lazy=True)
@@ -236,7 +329,7 @@ def teacher_login():
 def admin_login():
 	if request.method == 'GET':
 		if current_user.is_authenticated:
-			return redirect("/admin")
+			return redirect("/teacher_list")
 		return render_template ("login/admin_login.html")
 	if request.method == 'POST':
 		username = request.form.get("username")
@@ -249,7 +342,7 @@ def admin_login():
 				if(user and user.password==password):
 					login_user(user)
 					next_page = request.args.get('next')
-					return redirect(next_page) if next_page else redirect("/admin")
+					return redirect(next_page) if next_page else redirect("/teacher_list")
 				else:
 					flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
 			else:
@@ -326,6 +419,8 @@ def getSubjects():
 		obj=(subject.id,subject.subject_name)
 		subjectsList.append(obj)
 	return subjectsList
+
+
 
 # usersList=[]
 # for profile in User:

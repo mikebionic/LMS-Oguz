@@ -3,60 +3,112 @@
 <head>
    <title>Admin</title>   
   <link rel="stylesheet" type="text/css" href="/static/admin/bootstrap-4/css/bootstrap.min.css">
+  <link href="/static/login/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/static/admin/css/table.css" rel="stylesheet" type="text/css">
+  <script src="/static/admin/js/jquery.min.js" type="text/javascript"></script>
+  <script src="/static/admin/js/table.js"></script>
+  <script src="/static/admin/js/bootstrap.min.js"></script>
 </head>
 <body>
-<img src="/static/admin/img/img-01.png" style="align-items: center; width: 90px; height: 80px; justify-content: center;"><label><strong>Oguz Han adynadky Inzenener we Tehnologiyalar Universiteti</strong></label>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
-  <a class="navbar-brand" href="#">Admin sahypa</a>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);">
+  <a class="navbar-brand" href="/logout" style="color: black;"><img src="/static/admin/img/img-01.png" style="align-items: center; width: 90px; height: 80px; justify-content: center;">Oguz Han adynadky Inzenener we Tehnologiyalar Universiteti</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/admin">Bash sahypa<span class="sr-only">(current)</span></a>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left: 500px;">
+    <ul class="navbar-nav mr-auto" >     
+      <li class="nav-item" >
+        <a class="nav-link" href="/admin" style="color: black;">Mugallymlar</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/teacher_list">Mugallymlar</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/student_list">Talyplar</a>
+        <a class="nav-link" href="/student_list" style="color: black;">Talyplar</a>
       </li>        
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    </ul>   
   </div>
 </nav>
-<div align="center" style="text-align: center; padding: 5px; font-size: 20px;">
-<label><em><b>Hasaba duran mugallymlaryň sanawy</b></em></label>
-</div>
-<!-- dobavlennye uchitelya -->
-<table class="table table-hover" style="padding-top: 10px;">
-  <thead style="text-align: center; background-color: #e3f2fd; text-align: center; ">
-    <tr>
-      <th scope="col">t/b</th>
-      <th scope="col">Mugallymyn ady</th>
-      <th scope="col">Dersin ady</th>      
-      <th scope="col">Ugry</th>
-      <th colspan="2" style="text-align: center;">Amallar</th> 
-    </tr>
-  </thead>
-  <tbody style="text-align: center;"> 
-     
-      <tr>
-        <th scope="row">teacher id</th>
-        <td>mugallym</td>
-        <td>  Dersin ady  </td>        
-        <td>     Ugry        </td>         
-        <td>Üýtget</td>   
-        <td>Pozmak</td>
-      </tr>
-    
-  </tbody>
-</table>
+
+
+<div class="container-fluid" style="margin-top: 3px;">
+        <div class="table-wrapper" style="margin: 0px; width: 100%;">
+            <div class="table-title">
+                <div class="row">
+                    <div class="col-sm-8"><h2>Hasaba duran <b>Mugallymlar</b></h2></div>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-info add-new" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);"><i class="fa fa-plus"></i>Täze goş</button>
+                    </div>
+                </div>
+            </div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Doly ady</th>
+                        <th>Kefedra</th>
+                        <th>Gizlin belgi</th>
+                        <th>Amallar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for teacher in teachers %}
+                    <tr>
+                        <td>{{teacher.username}}</td>
+                        <td>{{teacher.department}}</td>
+                        <td>{{teacher.password}}</td>
+                        <td>
+              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
+                            <a href="/teachers/delete/{{teacher.id}}" class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                  {% endfor %}
+
+
+                    <tr>
+                        <td>Döwlet Saryýew</td>
+                        <td>Sanly ykdysadyýet</td>
+                        <td>DS2222</td>
+                        <td>
+              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Ahal Akgaýew</td>
+                        <td></td>
+                        <td>AA3333</td>
+                        <td>
+              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus"></i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Aýlar Akmyradowa</td>
+                        <td></td>
+                        <td>AA4444</td>
+                        <td>
+              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus"></i></a>
+                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
+                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                    <tr><form method="POST" action="/admin/teacher_manage">
+                      <td><input type="text" class="form-control" name="username" id="name"></td>
+                      <td><input type="text" class="form-control" name="department" id="department"></td>
+                      <td><input type="text" class="form-control" name="password" id="phone"></td>
+                      <td>
+                        <input type="submit" name="submit">
+                        <a class="edit" title="" data-toggle="tooltip" data-original-title="Edit" style="display: none;"><i class="fa fa-user-edit"></i></a>
+                        <a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash-alt"></i></a>
+                        
+                      </td>
+                    </form></tr>
+      
+                </tbody>
+            </table>
+        </div>
+    </div> 
 <script type="text/javascript" src="bootstrap.min.js"></script>
 </body>
 </html>
