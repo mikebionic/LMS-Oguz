@@ -37,11 +37,11 @@ from flask_login import UserMixin
 
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer,primary_key=True)
-	username = db.Column(db.String(50),unique=True,nullable =False)
+	username = db.Column(db.String(50),unique=True)
 	full_name = db.Column(db.String(100))
 	department = db.Column(db.String(225))
 	student_id = db.Column(db.String(25))
-	password = db.Column(db.String(100), nullable=False)
+	password = db.Column(db.String(100),nullable=False)
 	user_type = db.Column(db.String(100))
 	lessons = db.relationship('Lessons',backref='user',lazy=True)
 	def __repr__ (self):
@@ -64,29 +64,60 @@ db.session.add(subject)
 subject = Subjects(subject_name="Mobile device Programming")
 db.session.add(subject)
 
+
+
+
+
+major = Majors(major_name="Awtomatlastyrmak we dolandyrmak")
+db.session.add(major)
+major = Majors(major_name="Mehatronika we robot tehnikasy")
+db.session.add(major)
+major = Majors(major_name="Elektronika we nanoelektronika")
+db.session.add(major)
 major = Majors(major_name="Maglumat Ulgamlary we Tehnologiyalary")
 db.session.add(major)
 major = Majors(major_name="Informatika we hasaplayys tehnikasy")
+db.session.add(major)
+major = Majors(major_name="Animasiya we grafika dizayny")
+db.session.add(major)
+major = Majors(major_name="Sanly ykdysadyyet")
 db.session.add(major)
 major = Majors(major_name="Innowatika")
 db.session.add(major)
 major = Majors(major_name="Biotehnologiya")
 db.session.add(major)
-major = Majors(major_name="Awtomatlastyrmak we dolandyrmak")
+major = Majors(major_name="Nanotehnologiyalar we nanomateriallar")
+db.session.add(major)
+major = Majors(major_name="Materiallaryn tehnologiyalary")
+db.session.add(major)
+major = Majors(major_name="Himiki tehnologiyalar")
+db.session.add(major)
+major = Majors(major_name="Ekologiya we tebigatdan peydalanmak")
+db.session.add(major)
+major = Majors(major_name="Genetika we bioinziniring")
 db.session.add(major)
 
 admin = User(username="admin",password="admin123",
 	user_type="admin",full_name="Administrator")
 db.session.add(admin)
 
-student = User(username="student",password="123",
+student = User(username="student",password="123",student_id="134543",
 	user_type="student",full_name="Ata Atajanow")
 db.session.add(student)
 
 teacher = User(username="teacher",password="123",
-	user_type="teacher",full_name="Plan Planyyew")
+	user_type="teacher",full_name="Plan Planyyew",department="Innowatika")
 db.session.add(teacher)
-
+teacher = User(username="saryyewd",password="DS2222",
+	user_type="teacher",full_name="Döwlet Saryýew",department="Sanly ykdysadyýet")
+db.session.add(teacher)
+teacher = User(username="akgayewa",password="AA3333",
+	user_type="teacher",full_name="Ahal Akgaýew",department="Kompýuter ylymlary we tehnologiýalary")
+db.session.add(teacher)
+teacher = User(username="akmyradovaa",password="AA4444",
+	user_type="teacher",full_name="Aýlar Akmyradowa",department="Kompýuter ylymlary we tehnologiýalary")
+db.session.add(teacher)
+                    
 
 db.session.commit()
 

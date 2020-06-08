@@ -5,18 +5,7 @@ $(document).ready(function(){
 	// Append table with add row form on add new button click
     $(".add-new").click(function(){
 		$(this).attr("disabled", "disabled");
-		var index = $("table tbody tr:last-child").index();
-        var row = 
-        	'<tr>' + '<form method="POST" action="/admin/teacher_manage">'+
-            '<td><input type="text" class="form-control" name="username" id="name"></td>' +
-            '<td><input type="text" class="form-control" name="department" id="department"></td>' +
-            '<td><input type="text" class="form-control" name="password" id="phone"></td>' +
-			'<td>' + actions + '</td>' +
-			'<a class="add" type="submit" title="" data-toggle="tooltip" data-original-title="Add" style="display: inline;"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>'+
-			'<a class="edit" title="" data-toggle="tooltip" data-original-title="Edit" style="display: none;"><i class="fa fa-user-edit"></i></a>'+
-			'<a class="delete" title="" data-toggle="tooltip" data-original-title="Delete"><i class="fa fa-trash-alt"></i></a>'+
-        	'</form>'+'</tr>';
-    	$("table").append(row);		
+		$("#addingNewUserForThisApp").show();
 		// $("table tbody tr").eq(index + 1).find(".add, .edit").toggle();
   //       $('[data-toggle="tooltip"]').tooltip();
     });

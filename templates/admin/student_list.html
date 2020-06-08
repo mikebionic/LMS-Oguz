@@ -19,7 +19,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent" style="padding-left: 500px;">
     <ul class="navbar-nav mr-auto" >     
       <li class="nav-item" >
-        <a class="nav-link" href="/admin" style="color: black;">Mugallymlar</a>
+        <a class="nav-link" href="/teacher_list" style="color: black;">Mugallymlar</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/student_list" style="color: black;">Talyplar</a>
@@ -51,7 +51,7 @@
                 <tbody>
                   {% for student in students %}
                     <tr>
-                        <td>{{student.username}}</td>
+                        <td>{{student.full_name}}</td>
                         <td>{{student.student_id}}</td>
                         <td>{{student.password}}</td>
                         <td>
@@ -61,38 +61,9 @@
                         </td>
                     </tr>
                   {% endfor %}
-                    <tr>
-                        <td>Ataýewa Leýli</td>
-                        <td>163134</td>
-                        <td>LA2808</td>
-                        <td>
-              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Annabaýew Şöhrat</td>
-                        <td>163126</td>
-                        <td>ŞA0812</td>
-                        <td>
-              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Annamuhammet Muhammedow</td>
-                        <td>163133</td>
-                        <td>MW1008</td>
-                        <td>
-              <a class="add" title="Add" data-toggle="tooltip"><i class="fa fa-user-plus" style="width: 20px; height: 20px;"></i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="fa fa-user-edit"></i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="fa fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                    <tr><form method="POST" action="/admin/student_manage">
-                      <td><input type="text" class="form-control" name="username" id="name"></td>
+                    
+                    <tr id="addingNewUserForThisApp" style="display: none;"><form method="POST" action="/admin/student_manage">
+                      <td><input type="text" class="form-control" name="full_name" id="name"></td>
                       <td><input type="text" class="form-control" name="student_id" id="student_id"></td>
                       <td><input type="text" class="form-control" name="password" id="phone"></td>
                       <td>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sapak ýüklemek</title>
+	<title>Sapak yuklemek</title>
 	<link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -35,7 +35,7 @@
   </div>
 </nav>
 
-      <h4 style="margin: 15px 0;margin-top: 10px ;	color: #333;	text-transform: uppercase; text-align: center;">Hoş geldiňiz!</h4>
+      <h4 style="margin: 15px 0;margin-top: 10px ;	color: #333;	text-transform: uppercase; text-align: center;">Sapagy uytget</h4>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -75,42 +75,6 @@
   </div>
   </div>  
 </form>
-</div>
-
-<div class="container-fluid" style="padding-left: 0px;padding-right: 0px; margin-top: 10px; ">
-  <table class="table table-hover">
-  <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); text-align: center;">
-    <tr style="text-align: center;">
-      <th scope="col" style="text-align:  center;">t/b</th>
-      
-      <th scope="col" style="text-align:  center;">Dersin ady</th>
-      <th scope="col" style="text-align:  center;">Teman ady</th>
-      <th scope="col" style="text-align:  center;">Ugry</th>
-      <th colspan="2" style="text-align:  center;">Amallar</th>      
-    </tr>
-  </thead>
-  <tbody style="text-align: center;">
-    {% for lesson in lessons %}
-      <tr>
-        <th scope="row">{{lesson.id}}</th>
-        
-        <td>
-          {% for subject in subjects %}
-            {{ subject.subject_name if subject.id==lesson.subjectId }}
-          {% endfor %}
-        </td>
-        <td>{{lesson.lesson_name}}</td>
-        <td>
-          {% for major in majors %}
-            {{ major.major_name if major.id==lesson.majorId }}
-          {% endfor %}
-        </td>
-        <td><a href="/lessons/edit/{{lesson.id}}">Üýtget</a></td>   
-        <td><a href="/lessons/delete/{{lesson.id}}">Pozmak</a></td>
-      </tr>
-    {% endfor %}
-  </tbody>
-</table>
 </div>
 
 <script type="text/javascript" src="/static/teacher/bootstrap-4/js/bootstrap.min.js"></script>

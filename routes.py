@@ -77,7 +77,10 @@ def teacher():
 	subjects = Subjects.query.all()
 
 	if request.method == 'GET':
-		lessons = Lessons.query.all()
+		try:
+			lessons = Lessons.query.filter_by(teacherId=current_user.id)
+		except:
+			lessons = Lessons.query.all()
 		majors = Majors.query.all()
 		subjects = Subjects.query.all()
 		return render_template ("teacher/teacher.html",
@@ -103,7 +106,7 @@ def teacher():
 		return redirect('/teacher')
 	return render_template ("teacher/teacher.html",subjects=subjects,majors=majors,form=form)
 
-@app.route("/lessons/delete/<int:lessonId>",methods=['GET','PUT','DELETE'])
+@app.route("/lessons/delete/<int:lessonId>",methods=['GET'])
 @login_required
 def delete_lesson(lessonId):
 	lesson = Lessons.query.get(lessonId)
@@ -111,6 +114,32 @@ def delete_lesson(lessonId):
 	db.session.commit()
 	flash('successfully deleted!')
 	return redirect('/teacher')
+
+@app.route("/lessons/edit/<int:lessonId>",methods=['GET','POST'])
+@login_required
+def edit_lesson(lessonId):
+	lesson = Lessons.query.get(lessonId)
+
+	form = PostLessonForm()
+	majors = Majors.query.all()
+	subjects = Subjects.query.all()
+	if request.method == 'POST':
+		try:
+			lesson.lesson_name = form.lesson_name.data
+			lesson.subjectId = form.subject.data
+			lesson.majorId = form.major.data
+
+			if form.attachment.data:
+				attachment_file = save_attachment(form.attachment.data)
+				lesson.attachment=attachment_file
+			db.session.commit()
+			flash('success')
+			return redirect("/teacher")
+		except:
+			flash('error')
+			return redirect("/teacher")
+	return render_template("teacher/editLesson.html",subjects=subjects,majors=majors,form=form)
+
 
 @app.route("/student")
 @login_required
@@ -175,12 +204,12 @@ def student_list():
 def teacher_manage():
 	if request.method == 'POST':
 		print(request.form)
-		username = request.form.get("username")
+		full_name = request.form.get("full_name")
 		department = request.form.get("department")
 		password = request.form.get("password")
 		try:
 			user_type = 'teacher'
-			user = User(username=username,password=password,
+			user = User(full_name=full_name,password=password,
 				user_type=user_type,department=department)
 			db.session.add(user)
 			db.session.commit()
@@ -196,12 +225,12 @@ def teacher_manage():
 def student_manage():
 	if request.method == 'POST':
 		print(request.form)
-		username = request.form.get("username")
+		full_name = request.form.get("full_name")
 		student_id = request.form.get("student_id")
 		password = request.form.get("password")
 		try:
 			user_type = 'student'
-			user = User(username=username,password=password,
+			user = User(full_name=full_name,password=password,
 				user_type=user_type,student_id=student_id)
 			db.session.add(user)
 			db.session.commit()
@@ -250,7 +279,7 @@ def load_user(id):
 
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer,primary_key=True)
-	username = db.Column(db.String(50),unique=True,nullable =False)
+	username = db.Column(db.String(50),unique=True)
 	full_name = db.Column(db.String(100))
 	department = db.Column(db.String(225))
 	student_id = db.Column(db.String(25))
@@ -280,10 +309,10 @@ def student_login():
 			return redirect("/student")
 		return render_template ("login/student_login.html")
 	if request.method == 'POST':
-		username = request.form.get("username")
+		student_id = request.form.get("student_id")
 		password = request.form.get("password")
 		try:
-			user = User.query.filter_by(username=username).first()
+			user = User.query.filter_by(student_id=student_id).first()
 			if user:
 				if(user.user_type!="student"):
 					redirect("/")
@@ -306,10 +335,10 @@ def teacher_login():
 			return redirect("/teacher")
 		return render_template ("login/teacher_login.html")
 	if request.method == 'POST':
-		username = request.form.get("username")
+		full_name = request.form.get("full_name")
 		password = request.form.get("password")
 		try:
-			user = User.query.filter_by(username=username).first()
+			user = User.query.filter_by(full_name=full_name).first()
 			if user:
 				if(user.user_type!="teacher"):
 					redirect("/")
@@ -364,14 +393,14 @@ def register():
 		return render_template ("login/register.html")
 	if request.method == 'POST':
 		if request.form:
-			username = request.form.get("username")
+			userId = request.form.get("userId")
 			password = request.form.get("password")
 			full_name = request.form.get("full_name")
 			if full_name==None:
 				full_name=''
 			user_type = request.form.get('user_type')
 			try:
-				user = User(username=username,password=password,
+				user = User(student_id=userId,password=password,
 					full_name=full_name,user_type=user_type)
 				print(user)
 				print('success')
@@ -427,17 +456,17 @@ def getSubjects():
 # 	usersList.append(profile)
 
 class UploadFileForm(FlaskForm):
-	file = FileField('Upload File')
-	submit = SubmitField('Upload')
+	file = FileField('Faýl ýükläň')
+	submit = SubmitField('Ýükle')
 
 class PostLessonForm(FlaskForm):
 	lesson_name = StringField('Temanyň ady:',validators=[DataRequired()])
 	subject = SelectField('Dersiň ady:',choices=getSubjects(),validators=[DataRequired()])
 	major = SelectField('Ugry:',choices=getMajors(),validators=[DataRequired()])
 	# teacher = StringField('Ugry:',choices=majorsList,validators=[DataRequired()])
-	attachment = FileField('Sapak yuklaň:',validators=[FileAllowed(
+	attachment = FileField('Sapak ýükläň:',validators=[FileAllowed(
 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
-	submit = SubmitField('Yukle')
+	submit = SubmitField('Ýükle')
 
 
 ########
