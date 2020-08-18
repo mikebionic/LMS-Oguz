@@ -175,7 +175,7 @@
     
     <ul class="nav navbar-nav navbar-right ml-auto">      
       <li class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.png" class="avatar" alt="Avatar">{{current_user.username}}</a>
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.png" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
         <ul class="dropdown-menu">          
           <li class="divider dropdown-divider"></li>
           <li><a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Ulgamdan çyk</a></li>
@@ -244,7 +244,9 @@
           {% endfor %}
         </td>
         <td>{{lesson.lesson_name}}</td>
-        <td>imya uchitela</td>
+        <td> {% for teacher in teachers %}
+          {{teacher.full_name if teacher.id == lesson.teacherId}}
+        {% endfor %}</td>
         <td><a href="/static/attachments/{{lesson.attachment}}">Ýükle</a></td>   
        
       </tr>
