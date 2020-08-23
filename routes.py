@@ -18,7 +18,7 @@ UPLOAD_FOLDER = 'static/post_uploads'
 ALLOWED_EXTENSIONS = set(['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'gif'])
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['SECRET_KEY'] = "sdffggohr30ifrnf3e084fn0348"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lessonsShare.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lms.db'
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -40,6 +40,7 @@ class Lessons(db.Model):
 	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
 	subjectId = db.Column(db.Integer,db.ForeignKey("subjects.id"))
 	majorId = db.Column(db.Integer,db.ForeignKey("majors.id"))
+	attachments = db.relationship('Attachments',backref='lessons',lazy=True)
 
 class Subjects(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
@@ -50,6 +51,12 @@ class Majors(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	major_name = db.Column(db.String(100),nullable=False)
 	lessons = db.relationship('Lessons',backref='majors',lazy=True)
+
+class Attachments(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	filename = db.Column(db.String(100),nullable=False)
+	attachment = db.Column(db.String(500))
+	lesson_id = db.Column(db.Integer,db.ForeignKey("lessons.id"))
 
 ###  end of lesson models ###
 
@@ -93,22 +100,61 @@ def teacher():
 			'majorId':form.major.data,
 			'teacherId':current_user.id
 		}
-		print(lesson)
 		if form.attachment.data:
 			attachment_file = save_attachment(form.attachment.data)
 			lesson.update({'attachment':attachment_file})
-		print(lesson)
 		newLesson = Lessons(**lesson)
 		db.session.add(newLesson)
 		db.session.commit()
-		print('lesson success')
 		flash('Lesson successfully added', 'success')
 		return redirect('/teacher')
 	return render_template ("teacher/teacher.html",subjects=subjects,majors=majors,form=form)
 
+@app.route("/lessons/attach/<int:lessonId>",methods=['GET','POST'])
+@login_required
+def attach(lessonId):
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	lesson = Lessons.query.get(lessonId)
+	form = AddAttachmentForm()
+	if request.method == 'POST':
+		# if form.validate_on_submit():
+		try:
+			attachment = {
+				'filename':form.filename.data,
+				'lesson_id':lessonId
+			}
+			if form.attachment.data:
+				attachment_file = save_attachment(form.attachment.data)
+				attachment.update({'attachment':attachment_file})
+			newAttachment = Attachments(**attachment)
+			db.session.add(newAttachment)
+			db.session.commit()
+			flash('Attachment successfully uploaded', 'success')
+		except Exception as ex:
+			print(ex)
+		return redirect('/lessons/edit/'+str(lessonId))
+	return render_template("teacher/add_attachment.html",lesson=lesson,form=form)
+
+@app.route("/lessons/attach/<int:lessonId>/delete/<int:attachment_id>",methods=['GET'])
+@login_required
+def delete_attachment(lessonId,attachment_id):
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
+	attachment = Attachments.query.get(attachment_id)
+	db.session.delete(attachment)
+	db.session.commit()
+	flash('successfully deleted!')
+	return redirect('/lessons/edit/'+str(lessonId))
+
 @app.route("/lessons/delete/<int:lessonId>",methods=['GET'])
 @login_required
 def delete_lesson(lessonId):
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
 	lesson = Lessons.query.get(lessonId)
 	db.session.delete(lesson)
 	db.session.commit()
@@ -118,8 +164,10 @@ def delete_lesson(lessonId):
 @app.route("/lessons/edit/<int:lessonId>",methods=['GET','POST'])
 @login_required
 def edit_lesson(lessonId):
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/main")
 	lesson = Lessons.query.get(lessonId)
-
 	form = PostLessonForm()
 	majors = Majors.query.all()
 	subjects = Subjects.query.all()
@@ -138,7 +186,7 @@ def edit_lesson(lessonId):
 		except:
 			flash('error')
 			return redirect("/teacher")
-	return render_template("teacher/editLesson.html",subjects=subjects,majors=majors,form=form)
+	return render_template("teacher/edit_lesson.html",lesson=lesson,subjects=subjects,majors=majors,form=form)
 
 
 @app.route("/student")
@@ -160,8 +208,6 @@ def sort_lessons():
 		teacher = request.form.get("teacher")
 		subject = request.form.get("subject")
 		try:
-			# teacher = User.query.get(teacher)
-			# subject = Subjects.query.get(subject)
 			lessons = Lessons.query.filter_by(subjectId=subject,teacherId=teacher).all()
 			return redirect("/student",lessons=lessons)
 		except:
@@ -203,14 +249,21 @@ def student_list():
 @login_required
 def teacher_manage():
 	if request.method == 'POST':
-		print(request.form)
+		if(current_user.user_type!="admin"):
+			flash('Siz shu penjira girip bilenzok!')
+			return redirect("/main")
+		username = request.form.get("username")
 		full_name = request.form.get("full_name")
 		department = request.form.get("department")
 		password = request.form.get("password")
 		try:
 			user_type = 'teacher'
-			user = User(full_name=full_name,password=password,
-				user_type=user_type,department=department)
+			user = User(
+				username=username,
+				full_name=full_name,
+				password=password,
+				user_type=user_type,
+				department=department)
 			db.session.add(user)
 			db.session.commit()
 			flash('Mugallym akaunt doredi!','success')
@@ -224,6 +277,9 @@ def teacher_manage():
 @login_required
 def student_manage():
 	if request.method == 'POST':
+		if(current_user.user_type!="admin"):
+			flash('Siz shu penjira girip bilenzok!')
+			return redirect("/main")
 		print(request.form)
 		full_name = request.form.get("full_name")
 		student_id = request.form.get("student_id")
@@ -290,12 +346,12 @@ class User(db.Model, UserMixin):
 		return f"User('{self.username}')"
 
 
-@app.route("/dropTable")
-def dropTable():
-	db.drop_all()
-	db.create_all()
-	print('created')
-	return redirect ("/")
+# @app.route("/dropTable")
+# def dropTable():
+# 	db.drop_all()
+# 	db.create_all()
+# 	print('created')
+# 	return redirect ("/")
 
 @app.route("/")
 @app.route("/main")
@@ -315,17 +371,19 @@ def student_login():
 			user = User.query.filter_by(student_id=student_id).first()
 			if user:
 				if(user.user_type!="student"):
+					flash(f'Login ýalňyşlygy, ulanyjy talyp dal!','danger')
 					redirect("/")
-				if(user and user.password==password):
+				elif(user and user.password==password):
 					login_user(user)
 					next_page = request.args.get('next')
 					return redirect(next_page) if next_page else redirect("/student")
 				else:
-					flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
+					raise Exception
 			else:
-				flash(f'Login ýalňyşlygy, ulanyjy talyp dal!','danger')
-		except ValueError as ex:
+				raise Exception
+		except Exception as ex:
 			print(ex)
+			flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
 	return render_template ("login/student_login.html")
 
 @app.route("/login/teacher",methods=['GET','POST'])
@@ -335,23 +393,25 @@ def teacher_login():
 			return redirect("/teacher")
 		return render_template ("login/teacher_login.html")
 	if request.method == 'POST':
-		full_name = request.form.get("full_name")
+		username = request.form.get("username")
 		password = request.form.get("password")
 		try:
-			user = User.query.filter_by(full_name=full_name).first()
+			user = User.query.filter_by(username=username).first()
 			if user:
 				if(user.user_type!="teacher"):
+					flash(f'Login ýalňyşlygy, ulanyjy mugallym dal!','danger')
 					redirect("/")
-				if(user and user.password==password):
+				elif(user and user.password==password):
 					login_user(user)
 					next_page = request.args.get('next')
 					return redirect(next_page) if next_page else redirect("/teacher")
 				else:
-					flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
+					raise Exception
 			else:
-				flash(f'Login ýalňyşlygy, ulanyjy mugallym dal!','danger')
-		except ValueError as ex:
+				raise Exception
+		except Exception as ex:
 			print(ex)
+			flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
 	return render_template ("login/teacher_login.html")
 
 @app.route("/login/admin",methods=['GET','POST'])
@@ -367,16 +427,18 @@ def admin_login():
 			user = User.query.filter_by(username=username).first()
 			if user:
 				if(user.user_type!="admin"):
+					flash(f'Login ýalňyşlygy, ulanyjy admin dal!','danger')
 					redirect("/")
 				if(user and user.password==password):
 					login_user(user)
 					next_page = request.args.get('next')
 					return redirect(next_page) if next_page else redirect("/teacher_list")
 				else:
-					flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
+					raise Exception
 			else:
-				flash(f'Login ýalňyşlygy, ulanyjy admin dal!','danger')
-		except ValueError as ex:
+				raise Exception				
+		except Exception as ex:
+			flash(f'Login ýalňyşlygy, ulanyjy ady ya-da açarsöz ýalnyş!','danger')
 			print(ex)
 	return render_template ("login/admin_login.html")
 
@@ -385,34 +447,35 @@ def logout():
 	logout_user()
 	return redirect ("/")
 
-@app.route("/register",methods=['GET','POST'])
-def register():
-	if request.method == 'GET':
-		if current_user.is_authenticated:
-			return redirect("/student")
-		return render_template ("login/register.html")
-	if request.method == 'POST':
-		if request.form:
-			userId = request.form.get("userId")
-			password = request.form.get("password")
-			full_name = request.form.get("full_name")
-			if full_name==None:
-				full_name=''
-			user_type = request.form.get('user_type')
-			try:
-				user = User(student_id=userId,password=password,
-					full_name=full_name,user_type=user_type)
-				print(user)
-				print('success')
-				db.session.add(user)
-				db.session.commit()
-				flash('Ulanyjy akaunt doredi!','success')
-				return redirect("/") 
-			except ValueError as ex:
-				print(ex)
-			else:
-				flash('Açarsözler deň däl!','warning')
-		return render_template ("login/register.html")
+# # # registartions will be done on admin route
+# @app.route("/register",methods=['GET','POST'])
+# def register():
+# 	if request.method == 'GET':
+# 		if current_user.is_authenticated:
+# 			return redirect("/student")
+# 		return render_template ("login/register.html")
+# 	if request.method == 'POST':
+# 		if request.form:
+# 			userId = request.form.get("userId")
+# 			password = request.form.get("password")
+# 			full_name = request.form.get("full_name")
+# 			if full_name==None:
+# 				full_name=''
+# 			user_type = request.form.get('user_type')
+# 			try:
+# 				user = User(student_id=userId,password=password,
+# 					full_name=full_name,user_type=user_type)
+# 				print(user)
+# 				print('success')
+# 				db.session.add(user)
+# 				db.session.commit()
+# 				flash('Ulanyjy akaunt doredi!','success')
+# 				return redirect("/") 
+# 			except Exception as ex:
+# 				print(ex)
+# 			else:
+# 				flash('Açarsözler deň däl!','warning')
+# 		return render_template ("login/register.html")
 
 #  #### end of login routes ####
 
@@ -449,8 +512,13 @@ def getSubjects():
 		subjectsList.append(obj)
 	return subjectsList
 
-
-
+def getAttachments(lessonId):
+	attachmentsList=[]
+	lessons = Lessons.query.get(lessonId)
+	for attachment in lessons.attachments:
+		obj=(attachment.id,attachment.filename)
+		attachmentsList.append(obj)
+	return attachmentsList
 # usersList=[]
 # for profile in User:
 # 	usersList.append(profile)
@@ -468,6 +536,11 @@ class PostLessonForm(FlaskForm):
 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
 	submit = SubmitField('Ýükle')
 
+class AddAttachmentForm(FlaskForm):
+	filename = StringField('Faýlyň ady:',validators=[DataRequired()])
+	attachment = FileField('Faýl:',validators=[FileAllowed(
+		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
+	submit = SubmitField('Ýükle')
 
 ########
 

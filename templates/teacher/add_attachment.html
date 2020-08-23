@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Sapak yuklemek</title>
-	<link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
+  <title>Faýl goş</title>
+  <link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link href="/static/login/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -34,8 +34,7 @@
     </ul>
   </div>
 </nav>
-
-      <h4 style="margin: 15px 0;margin-top: 10px ;	color: #333;	text-transform: uppercase; text-align: center;">Sapagy uytget</h4>
+<h4 style="margin: 15px 0;margin-top: 10px ;  color: #333;  text-transform: uppercase; text-align: center;">Sapagy üýtget</h4>
 
 {% with messages = get_flashed_messages(with_categories=true) %}
   {% if messages %}
@@ -51,27 +50,17 @@
   {{ form.hidden_tag() }}
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="Ugry">{{ form.major.label }}</label>
-      {{form.major(class="form-control")}}
+      <label>{{ form.filename.label }}</label>
+      {{ form.filename(class="form-control",placeholder="Faýlyň adyny giriziň")}}
     </div>
     <div class="form-group col-md-6">
-      <label for="Ders">{{ form.subject.label }}</label>
-      {{form.subject(class="form-control")}}
+      <label>{{ form.attachment.label }}</label>
+      {{ form.attachment(class="custom-file-input") }}
+      <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Faýl saylaň</label>
     </div>
-    <div class="form-group col-md-6">
-      <label for="inputTema">{{ form.lesson_name.label }}</label>
-      {{ form.lesson_name(class="form-control",placeholder="Temanyň adyny giriziň")}}
+    <div class="form-group col-md-12" align="center">
+      {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}
     </div>
-  <div class="form-group col-md-6">
-  <label>{{ form.attachment.label }}</label>
-  {{ form.attachment(class="custom-file-input") }}
-  <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>
-    
-   </div>
-   <div class="form-group col-md-12" align="center">
-    {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}
- 
-   </div>
   </div>
   </div>  
 </form>

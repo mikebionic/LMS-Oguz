@@ -6,7 +6,7 @@ from flask_login import LoginManager
 from datetime import date,datetime,time
 app = Flask (__name__)
 app.config['SECRET_KEY'] = "sdffggohr30ifrnf3e084fn0348"
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lessonsShare.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lms.db'
 
 db = SQLAlchemy(app)
 # #### lessons db and CRUD #####
@@ -21,6 +21,7 @@ class Lessons(db.Model):
 	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
 	subjectId = db.Column(db.Integer,db.ForeignKey("subjects.id"))
 	majorId = db.Column(db.Integer,db.ForeignKey("majors.id"))
+	attachments = db.relationship('Attachments',backref='lessons',lazy=True)
 
 class Subjects(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
@@ -31,6 +32,12 @@ class Majors(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	major_name = db.Column(db.String(100),nullable=False)
 	lessons = db.relationship('Lessons',backref='majors',lazy=True)
+
+class Attachments(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	filename = db.Column(db.String(100),nullable=False)
+	attachment = db.Column(db.String(500))
+	lesson_id = db.Column(db.Integer,db.ForeignKey("lessons.id"))
 
 # #### auth and login routes ####
 from flask_login import UserMixin
@@ -47,7 +54,6 @@ class User(db.Model, UserMixin):
 	def __repr__ (self):
 		return f"User('{self.username}')"
 
-
 db.drop_all()
 db.create_all()
 
@@ -63,9 +69,6 @@ subject = Subjects(subject_name="Artificial Intelligence")
 db.session.add(subject)
 subject = Subjects(subject_name="Mobile device Programming")
 db.session.add(subject)
-
-
-
 
 
 major = Majors(major_name="Awtomatlastyrmak we dolandyrmak")
@@ -97,15 +100,19 @@ db.session.add(major)
 major = Majors(major_name="Genetika we bioinziniring")
 db.session.add(major)
 
-admin = User(username="admin",password="admin123",
+# Required admin user
+
+admin = User(username="administrator",password="lms_system@root/key",
 	user_type="admin",full_name="Administrator")
 db.session.add(admin)
+
+# Exaple user insertions
 
 student = User(username="student",password="123",student_id="134543",
 	user_type="student",full_name="Ata Atajanow")
 db.session.add(student)
 
-teacher = User(username="teacher",password="123",
+teacher = User(username="plan",password="123",
 	user_type="teacher",full_name="Plan Planyyew",department="Innowatika")
 db.session.add(teacher)
 teacher = User(username="saryyewd",password="DS2222",
@@ -120,6 +127,3 @@ db.session.add(teacher)
                     
 
 db.session.commit()
-
-# if __name__ == "__main__":
-# 	app.run(host="0.0.0.0" , port=5000 , debug=True)

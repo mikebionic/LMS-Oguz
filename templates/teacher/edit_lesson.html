@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sapagy üýtget</title>
+	<link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link href="/static/login/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="/static/admin/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/admin/js/bootstrap.min.js"></script>
+<link href="/static/teacher/css/nav.css" rel="stylesheet" type="text/css">
+</head> 
+<body>
+<nav class="navbar navbar-inverse navbar-expand-xl navbar-dark">
+  <div class="navbar-header d-flex col">
+    <img src="/static/teacher/img/img-01.png"  ><label><strong>Oguz Han adyndaky Inžener we Tehnologiýalar Uniwersitety</strong></label>
+   <!--  <a class="navbar-brand" href="#"><i class="fa fa-cube"></i>Brand<b>Name</b></a>  -->    
+    <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+      <span class="navbar-toggler-icon"></span>     
+    </button>
+  </div>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">    
+    
+    <ul class="nav navbar-nav navbar-right ml-auto">      
+      <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/teacher/img/ow.jpg" class="avatar" alt="Avatar">{{current_user.username}}</a>
+        <ul class="dropdown-menu">
+          <li><a href="/teacher" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Sapaklar</a></li>
+          <li class="divider dropdown-divider"></li>
+          <li><a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Ulgamdan çyk</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+      <h4 style="margin: 15px 0;margin-top: 10px ;	color: #333;	text-transform: uppercase; text-align: center;">Sapagy üýtget</h4>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+<div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); margin-top: 10px; ">
+<form method="POST" action="" class="form" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+<a href="/teacher" class="btn btn-success"><-</a>
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="Ugry">{{ form.major.label }}</label>
+      {{form.major(class="form-control")}}
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Ders">{{ form.subject.label }}</label>
+      {{form.subject(class="form-control")}}
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputTema">{{ form.lesson_name.label }}</label>
+      {{ form.lesson_name(class="form-control",placeholder="Temanyň adyny giriziň")}}
+    </div>
+    <div class="form-group col-md-6">
+      {% if lesson.attachment %}
+        <label>Ýüklenen faýl: {{ lesson.attachment }} | </label>
+      {% endif %}
+      <label>{{ form.attachment.label }}</label>
+      {{ form.attachment(class="custom-file-input") }}
+      <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>
+    
+    </div>
+    <div class="form-group col-md-12" align="center">
+      {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}
+    </div>
+    <div class="form-group col-md-12" align="center">
+      <h4>Goşulan faýllar:</h4>
+    </div>
+    <div class="form-group col-md-12" align="center">
+      {% for attachment in lesson.attachments %}
+        <label>{{ attachment.filename }}</label>
+        <a href="{{ attachment.attachment }}" class="btn btn-light">Gör</a>
+        <a href="/lessons/attach/{{ lesson.id }}/delete/{{ attachment.id }}" class="btn btn-danger">Poz</a>
+      {% endfor %}
+    </div>
+    <div class="form-group col-md-12" align="center">
+      <a href="/lessons/attach/{{lesson.id}}" class="btn btn-primary">Faýl goş</a>
+    </div>
+  </div>
+  </div>  
+</form>
+</div>
+
+<script type="text/javascript" src="/static/teacher/bootstrap-4/js/bootstrap.min.js"></script>
+</body>
+</html>
