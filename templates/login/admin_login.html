@@ -39,15 +39,6 @@
               <input type="submit" class="btn" value="Hasaba al">
             </form>
         </div>
-        {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            {% for category, message in messages %}
-              <div class="alert alert-{{ category }}">
-                {{ message }}
-              </div>
-            {% endfor %}  
-          {% endif %}
-        {% endwith %} 
     </div>
     <script type="text/javascript" src="/static/login/js/main.js"></script>
 </body>

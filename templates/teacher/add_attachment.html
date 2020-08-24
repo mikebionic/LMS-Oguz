@@ -25,7 +25,7 @@
     
     <ul class="nav navbar-nav navbar-right ml-auto">      
       <li class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/teacher/img/ow.jpg" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/teacher/img/ow.png" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
         <ul class="dropdown-menu">
           <li><a href="/teacher" class="dropdown-item">Sapaklar</a></li>
           <li class="divider dropdown-divider"></li>
@@ -37,15 +37,6 @@
 </nav>
 <h4 style="margin: 15px 0;margin-top: 10px ;  color: #333;  text-transform: uppercase; text-align: center;">Sapagy üýtget</h4>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-{% endwith %}
 <div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); margin-top: 10px; ">
 <form method="POST" action="" class="form" enctype="multipart/form-data">
   {{ form.hidden_tag() }}

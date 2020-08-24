@@ -186,16 +186,7 @@
   </div>
 </nav>
 
-      <h4 style="margin: 15px 0;margin-top: 10px ; color: #333;  text-transform: uppercase; text-align: center;">Hoş geldiňiz!</h4>
-{% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-    {% for category, message in messages %}
-      <div class="alert alert-{{ category }}">
-        {{ message }}
-      </div>
-    {% endfor %}  
-  {% endif %}
-{% endwith %}
+      <h4 style="margin: 15px 0;margin-top: 10px ; color: #333;  text-transform: uppercase; text-align: center;">Hoş geldi
 <div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f) ">
 <form method="POST" action="/sort/subjects">
   <div class="form-row">
