@@ -15,7 +15,8 @@ db = SQLAlchemy(app)
 
 class Lessons(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
-	lesson_name = db.Column(db.String(100),nullable =False)
+	lesson_name = db.Column(db.String(100),nullable=False)
+	lesson_description = db.Column(db.String(500))
 	date_added = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
 	attachment = db.Column(db.String(500))
 	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))

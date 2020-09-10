@@ -14,7 +14,7 @@
 <body>
 <nav class="navbar navbar-inverse navbar-expand-xl navbar-dark">
   <div class="navbar-header d-flex col">
-    <img src="/static/teacher/img/img-01.png"  ><label><strong>Oguz Han adyndaky Inžener we Tehnologiýalar Uniwersitety</strong></label>
+    <img src="/static/teacher/img/img-01.png"  ><label><strong>Oguz Han adyndaky Inžener we Tehnologiýalar Uniwersiteti</strong></label>
    <!--  <a class="navbar-brand" href="#"><i class="fa fa-cube"></i>Brand<b>Name</b></a>  -->    
     <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
       <span class="navbar-toggler-icon"></span>     
@@ -61,7 +61,10 @@
       <label>{{ form.attachment.label }}</label>
       {{ form.attachment(class="custom-file-input") }}
       <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>
-    
+    </div>
+    <div class="form-group col-md-12">
+      <label for="inputTema">{{ form.lesson_description.label }}</label>
+      {{ form.lesson_description(class="form-control",placeholder="Temanyň beýany")}}
     </div>
     <div class="form-group col-md-12" align="center">
       {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}

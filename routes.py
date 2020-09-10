@@ -34,7 +34,8 @@ login_manager.login_message_category = 'info'
 
 class Lessons(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
-	lesson_name = db.Column(db.String(100),nullable =False)
+	lesson_name = db.Column(db.String(100),nullable=False)
+	lesson_description = db.Column(db.String(500))
 	date_added = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
 	attachment = db.Column(db.String(500))
 	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
@@ -96,6 +97,7 @@ def teacher():
 		# if form.validate_on_submit():
 		lesson = {
 			'lesson_name':form.lesson_name.data,
+			'lesson_description':form.lesson_description.data,
 			'subjectId':form.subject.data,
 			'majorId':form.major.data,
 			'teacherId':current_user.id
@@ -174,6 +176,7 @@ def edit_lesson(lessonId):
 	if request.method == 'POST':
 		try:
 			lesson.lesson_name = form.lesson_name.data
+			lesson.lesson_description = form.lesson_description.data
 			lesson.subjectId = form.subject.data
 			lesson.majorId = form.major.data
 
@@ -414,9 +417,12 @@ class User(db.Model, UserMixin):
 # 	return redirect ("/")
 
 @app.route("/")
-@app.route("/main")
 def main():
 	return render_template ("login/main.html")
+
+@app.route("/login")
+def login():
+	return render_template ("login/login.html")
 
 @app.route("/login/student",methods=['GET','POST'])
 def student_login():
@@ -507,36 +513,6 @@ def logout():
 	logout_user()
 	return redirect ("/")
 
-# # # registartions will be done on admin route
-# @app.route("/register",methods=['GET','POST'])
-# def register():
-# 	if request.method == 'GET':
-# 		if current_user.is_authenticated:
-# 			return redirect("/student")
-# 		return render_template ("login/register.html")
-# 	if request.method == 'POST':
-# 		if request.form:
-# 			userId = request.form.get("userId")
-# 			password = request.form.get("password")
-# 			full_name = request.form.get("full_name")
-# 			if full_name==None:
-# 				full_name=''
-# 			user_type = request.form.get('user_type')
-# 			try:
-# 				user = User(student_id=userId,password=password,
-# 					full_name=full_name,user_type=user_type)
-# 				print(user)
-# 				print('success')
-# 				db.session.add(user)
-# 				db.session.commit()
-# 				flash('Ulanyjy akaunt doredi!','success')
-# 				return redirect("/") 
-# 			except Exception as ex:
-# 				print(ex)
-# 			else:
-# 				flash('Açarsözler deň däl!','warning')
-# 		return render_template ("login/register.html")
-
 #  #### end of login routes ####
 
 
@@ -546,15 +522,6 @@ from flask_wtf.file import FileField,FileAllowed
 from wtforms import StringField,SubmitField,BooleanField,TextAreaField,SelectField
 from wtforms.validators import DataRequired,Length,ValidationError
 # from routes import Lessons,Majors,Subjects,Users
-
-
-# class PostLessonForm(FlaskForm):
-# 	lesson_theme = StringField('Temanyň ady:',validators=[DataRequired()])
-# 	subject = StringField('Dersiň ady:',validators=[DataRequired()])
-# 	major = StringField('Ugry:',validators=[DataRequired()])
-# 	attachment = FileField('Sapak yuklaň:',validators=[FileAllowed(
-# 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
-# 	submit = SubmitField('Yukle')
 
 def getMajors():
 	majorsList=[]
@@ -589,6 +556,7 @@ class UploadFileForm(FlaskForm):
 
 class PostLessonForm(FlaskForm):
 	lesson_name = StringField('Temanyň ady:',validators=[DataRequired()])
+	lesson_description = StringField('Beýany:')
 	subject = SelectField('Dersiň ady:',choices=getSubjects(),validators=[DataRequired()])
 	major = SelectField('Ugry:',choices=getMajors(),validators=[DataRequired()])
 	# teacher = StringField('Ugry:',choices=majorsList,validators=[DataRequired()])
@@ -602,6 +570,14 @@ class AddAttachmentForm(FlaskForm):
 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
 	submit = SubmitField('Ýükle')
 
+class PostReferenceForm(FlaskForm):
+	reference_name = StringField('Temanyň ady:',validators=[DataRequired()])
+	subject = SelectField('Dersiň ady:',choices=getSubjects(),validators=[DataRequired()])
+	major = SelectField('Ugry:',choices=getMajors(),validators=[DataRequired()])
+	# teacher = StringField('Ugry:',choices=majorsList,validators=[DataRequired()])
+	attachment = FileField('Sapak ýükläň:',validators=[FileAllowed(
+		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
+	submit = SubmitField('Ýükle')
 ########
 
 if __name__ == "__main__":
