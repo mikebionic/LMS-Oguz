@@ -79,7 +79,7 @@ def save_attachment(form_attachment):
 def teacher():
 	if(current_user.user_type!="teacher"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	form = PostLessonForm()
 	majors = Majors.query.all()
 	subjects = Subjects.query.all()
@@ -117,7 +117,7 @@ def teacher():
 def attach(lessonId):
 	if(current_user.user_type!="teacher"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	lesson = Lessons.query.get(lessonId)
 	form = AddAttachmentForm()
 	if request.method == 'POST':
@@ -144,7 +144,7 @@ def attach(lessonId):
 def delete_attachment(lessonId,attachment_id):
 	if(current_user.user_type!="teacher"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	attachment = Attachments.query.get(attachment_id)
 	db.session.delete(attachment)
 	db.session.commit()
@@ -156,7 +156,7 @@ def delete_attachment(lessonId,attachment_id):
 def delete_lesson(lessonId):
 	if(current_user.user_type!="teacher"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	lesson = Lessons.query.get(lessonId)
 	db.session.delete(lesson)
 	db.session.commit()
@@ -168,7 +168,7 @@ def delete_lesson(lessonId):
 def edit_lesson(lessonId):
 	if(current_user.user_type!="teacher"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	lesson = Lessons.query.get(lessonId)
 	form = PostLessonForm()
 	majors = Majors.query.all()
@@ -231,6 +231,39 @@ def sort_lessons():
 #############################
 
 
+
+
+###### library and homeworks ######
+ # <a href="/library" class="btn btn-primary">Kitaphana</a>
+ #  <a href="/add_library_book" class="btn btn-outline-primary">Kitap goş</a>
+ #  <a href="/homeworks" 
+
+@app.route("/library",methods=['GET','POST'])
+def library():
+	return "welcome to lib"
+
+@app.route("/add_library_book",methods=['GET','POST'])
+@login_required
+def add_library_book():
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/login")
+	return "add book"
+
+@app.route("/homeworks",methods=['GET','POST'])
+@login_required
+def homeworks():
+	if(current_user.user_type!="teacher"):
+		flash('Siz shu penjira girip bilenzok!')
+		return redirect("/login")
+	return "Check the homeworks"
+
+###############################
+
+
+
+
+
 ######## admin page functions ########
 
 @app.route("/admin/teachers_list",methods=['GET','POST'])
@@ -238,7 +271,7 @@ def sort_lessons():
 def teachers_list():
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	
 	if request.method == 'GET':
 		teachers = User.query.filter_by(user_type='teacher').all()
@@ -271,7 +304,7 @@ def teachers_list():
 def students_list():
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 
 	if request.method == 'GET':
 		students = User.query.filter_by(user_type='student').all()
@@ -299,7 +332,7 @@ def students_list():
 def majors_list():
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	if request.method == 'GET':
 		majors = Majors.query.all()
 		return render_template("admin/majors_list.html",majors=majors)
@@ -320,7 +353,7 @@ def majors_list():
 def delete_major(major_id):
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	major = Majors.query.get(major_id)
 	db.session.delete(major)
 	db.session.commit()
@@ -332,7 +365,7 @@ def delete_major(major_id):
 def subjects_list():
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	if request.method == 'GET':
 		subjects = Subjects.query.all()
 		return render_template("admin/subjects_list.html",subjects=subjects)
@@ -353,7 +386,7 @@ def subjects_list():
 def delete_subject(subject_id):
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	subject = Subjects.query.get(subject_id)
 	db.session.delete(subject)
 	db.session.commit()
@@ -367,7 +400,7 @@ def delete_subject(subject_id):
 def delete_student(id):
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	student = User.query.get(id)
 	db.session.delete(student)
 	db.session.commit()
@@ -379,7 +412,7 @@ def delete_student(id):
 def delete_teacher(id):
 	if(current_user.user_type!="admin"):
 		flash('Siz shu penjira girip bilenzok!')
-		return redirect("/main")
+		return redirect("/login")
 	teacher = User.query.get(id)
 	db.session.delete(teacher)
 	db.session.commit()
@@ -422,6 +455,7 @@ def main():
 
 @app.route("/login")
 def login():
+	logout_user()
 	return render_template ("login/login.html")
 
 @app.route("/login/student",methods=['GET','POST'])
