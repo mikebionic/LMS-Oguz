@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>{{ title if title else 'Kitaphana' }}</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="/static/library/css/main.css" />
+		<link rel="stylesheet" href="/static/library/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/static/library/css/service.css">
+		{% block classes %}{% endblock %}
+	</head>
+	<body class="subpage">
+
+	<header id="header">
+		<!-- <a href="#"> -->
+			<img src="/static/library/logo/ulogo.png"  href="/"class="logo">
+		<!-- </a> -->
+		<div class="inner">
+			<nav id="nav">
+				<a href="/">Esasy</a>
+				<a href="library">Kitaphana</a>
+				<a href="projects">Taslamalar</a>
+				<a href="tutorials">Tutorials</a>
+				<a href="list">List of Sensors</a>
+				<a href="login">Giriş</a>
+			</nav>
+			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+		</div>
+	</header>
+
+	{% block main %}{% endblock %}
+
+	<footer id="footer">
+		<div class="inner">
+			<div class="flex">
+				<div class="copyright">
+					Oguz Han adyndaky Inžener we Tehnologiýalar Uniwersitety</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<script src="/static/library/js/jquery.min.js"></script>
+	<script src="/static/library/js/skel.min.js"></script>
+	<script src="/static/library/js/util.js"></script>
+	<script src="/static/library/js/main.js"></script>
+	<script src="/static/library/js/popper.min.js"></script>
+	<script src="/static/library/js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#carouselExampleIndicators').carousel('pause');
+		});
+	</script>
+	</body>
+</html>

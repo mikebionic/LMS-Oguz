@@ -1,0 +1,34 @@
+body {
+    font-family: Montserrat-Regular, sans-serif;
+}
+
+.mb80 {
+    margin-bottom: 80px;
+}
+
+#all-projects .img-wrapper {
+    -webkit-box-shadow: 0px 22px 34px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 22px 34px 0px rgba(0, 0, 0, 0.1);
+}
+
+#all-projects .content-wrapper {
+    padding-top: 80px;
+}
+
+#all-projects .content-wrapper h3 {
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    font-family: Montserrat-Medium, sans-serif;
+}
+
+#all-projects .content-wrapper a {
+    color: #007bff;
+    text-transform: uppercase;
+    font-family: Montserrat-Regular, sans-serif;
+}
+
+#all-projects .content-wrapper a:hover {
+    color: #0052ab;
+    text-decoration: none;
+}
+

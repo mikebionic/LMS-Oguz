@@ -1,0 +1,113 @@
+{% extends "library/layout.html" %}
+
+{% block classes %}
+	<link rel="stylesheet" href="/static/library/css/tutcss.css">
+{% endblock %}
+
+{% block main %}
+<section id="main" class="wrapper">
+	<div class="inner">
+		<header class="align-center">
+			<h1>Electronics team Tutorials</h1>
+			<h4>Projects Hub</h4>
+			<div class="d-flex">
+				<div class="dropdown mr-1">
+					<button type="button" class="btn btn-secondary dropdown-toggle" id="dropdownMenuOffset" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10,20">
+					All Categories
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuOffset">
+					<a class="dropdown-item" href="#">Action</a>
+					<a class="dropdown-item" href="#">Another action</a>
+					<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-secondary">Any Difficulty</button>
+					<button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" id="dropdownMenuReference" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-reference="parent">
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
+						<a class="dropdown-item" href="#">Action</a>
+						<a class="dropdown-item" href="#">Another action</a>
+						<a class="dropdown-item" href="#">Something else here</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Separated link</a>
+					</div>
+				</div>
+			</div>
+		</header>
+		<div class="row">
+			<div class="col-md-4 mb-4">
+				<div class="card">
+						<div class="front">
+							<img src="/static/library/images/tutimg/servo1.jpg" alt="#">
+						</div>
+						<div class="back">
+							<div class="back-content middle">
+								<h2>Title</h2>
+								<span>Rotary Actuator</span>
+								<div class="sm">
+									<p>Allows for precise control of angular or linear position, velocity and acceleration. It consists of a suitable motor coupled to a sensor for position feedback. It also requires a relatively sophisticated controller, often a dedicated module designed specifically for use with servomotors.
+										Servomotors are not a specific class of motor although the term servomotor is often used to refer to a motor suitable for use in a closed-loop control system.
+									</p>
+									<a href="exmaple">> MORE</a>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div class="col-md-4 mb-4 ">
+				<div class="card">
+					<div class="front">
+						<img src="/static/library/images/tutimg/garden.jpg" alt="#">
+					</div>
+					<div class="back">
+						<div class="back-content middle">
+							<h2>Title</h2>
+							<span>Indoor Garden</span>
+							<div class="sm">
+								<p>The Indoor Garden Irrigation project using arduino and senors with motor drivers. Usage of Temperature sensor</p>
+								<a href="#">> MORE</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<div class="front">
+						<img src="/static/library/images/tutimg/tft.jpg" alt="#">
+					</div>
+					<div class="back">
+						<div class="back-content middle">
+							<h2>Title</h2>
+							<span>TFT Touchscreen</span>
+							<div class="sm">
+								<p>Connecting the TFT touchscreen to arduino uno and outputting the values of sensors on the screen. Getting the values for touch/press.</p>
+								<a href="#">> MORE</a>					
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-4">
+				<div class="card">
+					<div class="front">
+						<img src="/static/library/images/tutimg/clock.jpg" alt="#">
+					</div>
+					<div class="back">
+						<div class="back-content middle">
+							<h2>Title</h2>
+							<span>Alarm clock</span>
+							<div class="sm">
+								<p>Building the alarm clock app using RTC arduino clock module and arduino kit.</p>
+								<a href="#">> MORE</a>					
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

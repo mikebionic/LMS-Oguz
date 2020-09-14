@@ -1,0 +1,22 @@
+.class-service-row .service-col {
+    border: 1px solid #e4e4e4;
+    padding: 32px;
+    margin-bottom: 50px;
+    transition: ease-in-out 0.3s;
+    min-height: 330px;
+    transition: all ease-in-out 0.5;
+}
+
+.class-service-row .service-col svg {
+    margin-bottom: 20px;
+}
+
+.class-service-row .service-col:hover {
+    border: 1px solid #5385c1;
+    background-color: #e4e4e4;
+    color: #5385c1;
+}
+
+.class-service-row .service-col:hover svg {
+    stroke: #5385c1;
+}
