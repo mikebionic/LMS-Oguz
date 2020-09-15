@@ -5,5 +5,4 @@ class Config:
 
 	# Database
 	SQLALCHEMY_DATABASE_URI = "sqlite:///lms.db"
-	SQLALCHEMY_TRACK_MODIFICATIONS = True
 	UPLOAD_FOLDER = "static/post_uploads"
