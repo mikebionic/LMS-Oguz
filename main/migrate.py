@@ -40,6 +40,15 @@ class Attachments(db.Model):
 	attachment = db.Column(db.String(500))
 	lesson_id = db.Column(db.Integer,db.ForeignKey("lessons.id"))
 
+class Reference(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	reference_name = db.Column(db.String(100),nullable=False)
+	reference_description = db.Column(db.String(500))
+	date_added = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
+	attachment = db.Column(db.String(500))
+	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
+	majorId = db.Column(db.Integer,db.ForeignKey("majors.id"))
+
 # #### auth and login routes ####
 from flask_login import UserMixin
 

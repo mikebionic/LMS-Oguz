@@ -1,0 +1,62 @@
+{% extends "library/layout.html" %}
+{% block main %}
+
+<form method="POST" action="" class="form" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputTema">{{ form.reference_name.label }}</label>
+      {{ form.reference_name(class="form-control",placeholder="Kitabyň adyny giriziň")}}
+    </div>
+    <div class="form-group col-md-6">
+      <label for="Ders">{{ form.major.label }}</label>
+      {{form.major(class="form-control")}}
+    </div>
+    <div class="form-group col-md-6">
+      <label>{{ form.attachment.label }}</label>
+      {{ form.attachment(class="custom-file-input") }}
+      <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>    
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputTema">{{ form.reference_description.label }}</label>
+      {{ form.reference_description(class="form-control",placeholder="Kitabyň beýany")}}
+    </div>
+    <div class="form-group col-md-12" align="center">
+      {{ form.submit(class="btn btn-info", style="align-items: center; justify-content: center;") }}
+    </div>
+  </div>
+  </div>  
+</form>
+
+
+<div class="inner">
+	<div class="table-box">
+		<table id="libTable" class="table table-striped table-bordered" style="width:100%">
+			<thead>
+				<th>T/b</th>
+				<th>Ugur</th>
+				<th>Kitaby ady</th>
+				<th>Beýany</th>
+				<th>Ýükle</th>
+			</thead>
+			<tbody>
+				{% for reference in references %}
+		      <tr>
+		        <th scope="row" >{{reference.id}}</th>        
+		        <td>
+		          {% for major in majors %}
+		            {{ major.major_name if major.id==reference.subjectId }}
+		          {% endfor %}
+		        </td>
+		        <td>{{reference.reference_name}}</td>
+		        <td>{{ '' if reference.reference_description == None else reference.reference_description }}</td>
+		        <td>
+		          <a href="/static/attachments/{{reference.attachment}}" class="btn btn-warning">Ýükle</a>
+		        </td>       
+		      </tr>
+		    {% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

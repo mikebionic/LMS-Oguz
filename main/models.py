@@ -34,6 +34,16 @@ class Lessons(db.Model):
 	attachments = db.relationship('Attachments',backref='lessons',lazy=True)
 
 
+class Reference(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	reference_name = db.Column(db.String(100),nullable=False)
+	reference_description = db.Column(db.String(500))
+	date_added = db.Column(db.DateTime,nullable=False,default=datetime.utcnow)
+	attachment = db.Column(db.String(500))
+	teacherId = db.Column(db.Integer,db.ForeignKey("user.id"))
+	majorId = db.Column(db.Integer,db.ForeignKey("majors.id"))
+
+
 class Subjects(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	subject_name = db.Column(db.String(100),nullable=False)

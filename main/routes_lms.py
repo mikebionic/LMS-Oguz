@@ -383,10 +383,6 @@ def delete_teacher(id):
 # 	print('created')
 # 	return redirect ("/")
 
-@app.route("/")
-def main():
-	return render_template ("login/main.html")
-
 @app.route("/login")
 def login():
 	logout_user()

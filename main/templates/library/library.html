@@ -2,7 +2,7 @@
 {% block main %}
 <div class="inner">
 	<div class="table-box">
-		<table>
+		<table id="libTable" class="table table-striped table-bordered" style="width:100%">
 			<thead>
 				<th>T/b</th>
 				<th>Ugur</th>
@@ -11,41 +11,21 @@
 				<th>Ýükle</th>
 			</thead>
 			<tbody>
-				<tr>
-					<td>1</td>
-					<td>Fizika</td>
-					<td>Applied physics</td>
-					<td>Authors plan planyyew and plan planow</td>
-					<td><a href="#" class="btn btn-outline-info">Ýükle</a></td>
-				</tr>
-				<tr>
-					<td>2</td>
-					<td>Himiýa</td>
-					<td>Chemical technics annd technology</td>
-					<td>Authors plan planyyew and plan planow</td>
-					<td><a href="#" class="btn btn-outline-info">Ýükle</a></td>
-				</tr>
-				<tr>
-					<td>3</td>
-					<td>Materiallary öwrenmek</td>
-					<td>Materials in bio-life</td>
-					<td>Authors plan planyyew and plan planow</td>
-					<td><a href="#" class="btn btn-outline-info">Ýükle</a></td>
-				</tr>
-				<tr>
-					<td>4</td>
-					<td>Elektronika</td>
-					<td>Circuits for beginners</td>
-					<td>Authors plan planyyew and plan planow</td>
-					<td><a href="#" class="btn btn-outline-info">Ýükle</a></td>
-				</tr>
-				<tr>
-					<td>5</td>
-					<td>Robot tehnikasy</td>
-					<td>CAD, Robotic Design</td>
-					<td>Authors plan planyyew and plan planow</td>
-					<td><a href="#" class="btn btn-outline-info">Ýükle</a></td>
-				</tr>
+				{% for reference in references %}
+		      <tr>
+		        <th scope="row" >{{reference.id}}</th>        
+		        <td>
+		          {% for major in majors %}
+		            {{ major.major_name if major.id==reference.majorId }}
+		          {% endfor %}
+		        </td>
+		        <td>{{reference.reference_name}}</td>
+		        <td>{{ '' if reference.reference_description == None else reference.reference_description }}</td>
+		        <td>
+		          <a href="/static/attachments/{{reference.attachment}}" class="btn btn-warning">Ýükle</a>
+		        </td>       
+		      </tr>
+		    {% endfor %}
 			</tbody>
 		</table>
 	</div>

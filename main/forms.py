@@ -27,9 +27,9 @@ class AddAttachmentForm(FlaskForm):
 
 
 class PostReferenceForm(FlaskForm):
-	reference_name = StringField('Temanyň ady:',validators=[DataRequired()])
-	subject = SelectField('Dersiň ady:',coerce=int,validators=[DataRequired()])
-	major = SelectField('Ugry:',coerce=int,validators=[DataRequired()])
+	reference_name = StringField('Kitabyň ady:',validators=[DataRequired()])
+	reference_description = StringField('Beýany:')
+	major = SelectField('Ugruň ady:',coerce=int,validators=[DataRequired()])
 	attachment = FileField('Sapak ýükläň:',validators=[FileAllowed(
 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
 	submit = SubmitField('Ýükle')
