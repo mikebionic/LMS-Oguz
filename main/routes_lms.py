@@ -66,10 +66,10 @@ def teacher():
 		try:
 			lessons = Lessons.query.filter_by(teacherId=current_user.id)
 		except:
-			lessons = Lessons.query.all()
+			lessons = Lessons.query.order_by(Lessons.date_added).all()
 		majors = Majors.query.all()
 		subjects = Subjects.query.all()
-		return render_template ("teacher/teacher.html",
+		return render_template ("teacher/teacher.html",title="Sapagy ýükle",
 			lessons=lessons,subjects=subjects,majors=majors,form=form)
 	if request.method == 'POST':
 		# if form.validate_on_submit():
@@ -88,7 +88,7 @@ def teacher():
 		db.session.commit()
 		flash('Lesson successfully added', 'success')
 		return redirect('/teacher')
-	return render_template ("teacher/teacher.html",subjects=subjects,majors=majors,form=form)
+	return render_template ("teacher/teacher.html",title="Sapagy ýükle",subjects=subjects,majors=majors,form=form)
 
 
 @app.route("/lessons/attach/<int:lessonId>",methods=['GET','POST'])
@@ -100,7 +100,6 @@ def attach(lessonId):
 	lesson = Lessons.query.get(lessonId)
 	form = AddAttachmentForm()
 	if request.method == 'POST':
-		# if form.validate_on_submit():
 		try:
 			attachment = {
 				'filename':form.filename.data,
@@ -116,7 +115,7 @@ def attach(lessonId):
 		except Exception as ex:
 			print(ex)
 		return redirect('/lessons/edit/'+str(lessonId))
-	return render_template("teacher/add_attachment.html",lesson=lesson,form=form)
+	return render_template("teacher/add_attachment.html",title="Faýl goş",lesson=lesson,form=form)
 
 
 @app.route("/lessons/attach/<int:lessonId>/delete/<int:attachment_id>",methods=['GET'])
@@ -174,17 +173,17 @@ def edit_lesson(lessonId):
 		except:
 			flash('error')
 			return redirect("/teacher")
-	return render_template("teacher/edit_lesson.html",lesson=lesson,subjects=subjects,majors=majors,form=form)
+	return render_template("teacher/edit_lesson.html",title="Sapagy üýtget",lesson=lesson,subjects=subjects,majors=majors,form=form)
 
 
 @app.route("/student")
 @login_required
 def student():
 	teachers = User.query.filter_by(user_type="teacher").all()
-	lessons = Lessons.query.all()
+	lessons = Lessons.query.order_by(Lessons.date_added).all()
 	majors = Majors.query.all()
 	subjects = Subjects.query.all()
-	return render_template ("student/student.html",
+	return render_template ("student/student.html",title="Sapak ýüklemek",
 		subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
 
 
@@ -192,7 +191,7 @@ def student():
 @login_required
 def lesson_attachments(lessonId):
 	lesson = Lessons.query.get(lessonId)
-	return render_template("student/lesson_attachments.html",lesson=lesson)
+	return render_template("student/lesson_attachments.html",title="Faýllar",lesson=lesson)
 
 
 @app.route("/sort/subjects",methods=['GET','POST'])
@@ -209,7 +208,7 @@ def sort_lessons():
 			teacher = User.query.filter_by(full_name=teacher,user_type="teacher").first()
 			subject = Subjects.query.filter_by(subject_name=subject).first()
 			lessons = Lessons.query.filter_by(subjectId=subject.id,teacherId=teacher.id).all()
-			return render_template ("student/student.html",
+			return render_template ("student/student.html",title="Sapak ýüklemek",
 				subjects=subjects,majors=majors,lessons=lessons,teachers=teachers)
 		except Exception as ex:
 			print(ex)

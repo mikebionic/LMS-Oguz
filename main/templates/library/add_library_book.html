@@ -45,7 +45,7 @@
 		        <th scope="row" >{{reference.id}}</th>        
 		        <td>
 		          {% for major in majors %}
-		            {{ major.major_name if major.id==reference.subjectId }}
+		            {{ major.major_name if major.id==reference.majorId }}
 		          {% endfor %}
 		        </td>
 		        <td>{{reference.reference_name}}</td>

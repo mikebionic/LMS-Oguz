@@ -1,0 +1,43 @@
+{% extends "student/layout.html" %}
+{% block main %}
+
+<div class="container-fluid">
+  <table class="table table-hover" style="text-align: center;">
+  <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); justify-content:center;">
+    <tr>
+      <th scope="col">t/b</th>      
+      <th scope="col"style="text-align: center;">Dersiň ady</th>
+      <th scope="col" style="text-align:center;">Ýumuşyň ady</th>
+      <th scope="col" style="text-align:center;">Ýumuşyň beýany</th>
+      <th scope="col"style="text-align: center;">Mugallym</th> 
+      <th scope="col"style="text-align: center;">Amallar</th>           
+    </tr>
+  </thead>
+  <tbody style="text-align: center;">
+    {% for hometask in hometasks %}
+      <tr>
+        <th scope="row">{{hometask.id}}</th>
+        
+        <td>
+          {% for subject in subjects %}
+            {{ subject.subject_name if subject.id==hometask.subjectId }}
+          {% endfor %}
+        </td>
+        <td>{{hometask.hometask_name}}</td>
+        <td>{{ '' if hometask.hometask_description == None else hometask.hometask_description }}</td>
+        <td>
+          {% for teacher in teachers %}
+            {{teacher.full_name if teacher.id == hometask.teacherId}}
+          {% endfor %}
+        </td>
+        <td>
+          <a href="/static/attachments/{{hometask.attachment}}" class="btn btn-warning">Ýükle</a>
+          <a href="/hometasks/{{hometask.id}}/post_solution" class="btn btn-info">Çözgüt iber</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}

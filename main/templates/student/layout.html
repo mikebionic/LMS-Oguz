@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{{title}}</title>
+	<link rel="stylesheet" type="text/css" href="/static/teacher/bootstrap-4/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+  body{
+    background: #eeeeee;
+    
+  }
+    .form-inline {
+        display: inline-block;
+    }
+  .navbar-header.col {
+    padding: 0 !important;
+  } 
+  .navbar {
+    color: #fff;
+    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+    padding: 5px 16px;
+    border-radius: 0;
+    border: none;
+    box-shadow: 0 0 4px rgba(0,0,0,.1);
+  }
+
+  #surat{
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+      vertical-align: middle;
+  }
+  .navbar img {
+    padding: 0px;
+    /*border-radius: 50%;*/
+    width: 60px;
+    height: 45px;
+    margin-right: 10px;
+  }
+  
+ 
+  .navbar label {
+    font-size: 19px;
+    margin-right: 5px;
+  }
+  
+  .navbar .nav-item i {
+    font-size: 20px;
+  }
+  .navbar .nav-item span {
+    position: relative;
+    top: 3px;
+  }
+  .navbar .nav > li a {
+    color: #efe5ff;
+    padding: 8px 15px;
+    font-size: 14px;    
+  }
+  .navbar .nav > li a:hover, .navbar .nav > li a:focus {
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255,255,255,0.3);
+  }
+  .navbar .nav > li > a > i {
+    display: block;
+    text-align: center;
+  }
+  .navbar .dropdown-item i {
+    font-size: 16px;
+    min-width: 22px;
+  }
+    .navbar .dropdown-item .material-icons {
+        font-size: 21px;
+        line-height: 16px;
+        vertical-align: middle;
+        margin-top: -2px;
+    }
+  .navbar .nav-item.open > a, .navbar .nav-item.open > a:hover, .navbar .nav-item.open > a:focus {
+    color: #fff;
+    background: none !important;
+  }
+  .navbar .dropdown-menu {
+    border-radius: 1px;
+    border-color: #e5e5e5;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+  .navbar .dropdown-menu li a {
+    color: #777 !important;
+    padding: 8px 20px;
+    line-height: normal;
+  }
+  .navbar .dropdown-menu li a:hover, .navbar .dropdown-menu li a:focus {
+    color: #333 !important;
+    background: transparent !important;
+  }
+  .navbar .nav .active a, .navbar .nav .active a:hover, .navbar .nav .active a:focus {
+    color: #fff;
+    text-shadow: 0 0 4px rgba(255,255,255,0.2);
+    background: transparent !important;
+  }
+  .navbar .nav .user-action {
+    padding: 9px 15px;
+  }
+  .navbar .navbar-toggle {
+    border-color: #fff;
+  }
+  .navbar .navbar-toggle .icon-bar {
+    background: #fff;
+  }
+  .navbar .navbar-toggle:focus, .navbar .navbar-toggle:hover {
+    background: transparent;
+  }
+  .navbar .navbar-nav .open .dropdown-menu {
+    background: #faf7fd;
+    border-radius: 1px;
+    border-color: #faf7fd;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+  .navbar .divider {
+    background-color: #e9ecef !important;
+  }
+  @media (min-width: 1200px){
+    .form-inline .input-group {
+      width: 350px;
+      margin-left: 30px;
+    }
+  }
+  @media (max-width: 1199px){
+    .navbar .nav > li > a > i {
+      display: inline-block;      
+      text-align: left;
+      min-width: 30px;
+      position: relative;
+      top: 4px;
+    }
+    .navbar .navbar-collapse {
+      border: none;
+      box-shadow: none;
+      padding: 0;
+    }
+    .navbar .navbar-form {
+      border: none;     
+      display: block;
+      margin: 10px 0;
+      padding: 0;
+    }
+    .navbar .navbar-nav {
+      margin: 8px 0;
+    }
+    .navbar .navbar-toggle {
+      margin-right: 0;
+    }
+    .input-group {
+      width: 100%;
+    }
+  }
+</style>
+
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-expand-xl navbar-dark">
+  <div class="navbar-header d-flex col">
+    <img src="/static/teacher/img/img-01.png" id="surat" ><label><strong>Oguz Han adyndaky Inžener we Tehnologiýalar Uniwersiteti</strong></label>
+   <!--  <a class="navbar-brand" href="#"><i class="fa fa-cube"></i>Brand<b>Name</b></a>  -->    
+    <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle navbar-toggler ml-auto">
+      <span class="navbar-toggler-icon"></span>     
+    </button>
+  </div>
+  <!-- Collection of nav links, forms, and other content for toggling -->
+  <div class="btn-group mb-3 btn-group-sm" role="group">
+    <a href="/library" class="btn btn-s btn-primary">Kitaphana</a>
+    <a href="/hometasks" class="btn btn-warning">Öý işler</a>
+  </div>
+  <div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">    
+    
+    <ul class="nav navbar-nav navbar-right ml-auto">      
+      <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle user-action"><img src="/static/student/img/ow.png" class="avatar" alt="Avatar">{{current_user.full_name}}</a>
+        <ul class="dropdown-menu">
+          <li><a href="/student" class="dropdown-item">Sapaklar</a></li>
+          <li class="divider dropdown-divider"></li>
+          <li><a href="/logout" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Ulgamdan çyk</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+{% block main %}{% endblock %}
+
+<script type="text/javascript" src="/static/student/bootstrap-4/js/bootstrap.min.js"></script>
+</body>
+</html>

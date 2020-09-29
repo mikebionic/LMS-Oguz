@@ -6,13 +6,21 @@
   {{ form.hidden_tag() }}
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label>{{ form.filename.label }}</label>
-      {{ form.filename(class="form-control",placeholder="Faýlyň adyny giriziň")}}
+      <label for="inputTema">{{ form.solution_name.label }}</label>
+      {{ form.solution_name(class="form-control")}}
     </div>
     <div class="form-group col-md-6">
       <label>{{ form.attachment.label }}</label>
       {{ form.attachment(class="custom-file-input") }}
-      <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Faýl saylaň</label>
+      <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>    
+    </div>
+    <div class="form-group col-md-9">
+      <label for="inputTema">{{ form.solution_description.label }}</label>
+      {{ form.solution_description(class="form-control",placeholder="Beýany")}}
+    </div>
+    <div class="form-group col-md-3">
+      <label for="Ugry">{{ form.completed.label }}</label>
+      {{form.completed(class="form-control")}}
     </div>
     <div class="form-group col-md-12" align="center">
       {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}

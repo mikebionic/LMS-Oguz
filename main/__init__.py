@@ -7,9 +7,10 @@ app.config.from_object('config.Config')
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
-login_manager.login_view = 'main'
+login_manager.login_view = 'login'
 login_manager.login_message = 'Programma girin!'
 login_manager.login_message_category = 'info'
 
 from . import routes_library
 from . import routes_lms, models, forms
+from . import routes_hometasks

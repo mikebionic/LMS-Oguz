@@ -1,0 +1,46 @@
+{% extends "student/layout.html" %}
+{% block main %}
+
+<div class="container-fluid">
+  <div>
+    <h4>{{hometask.hometask_name}}</h4>
+    <h6>{{hometask.hometask_description}}</h6>
+  </div>
+  <table class="table table-hover" style="text-align: center;">
+  <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); justify-content:center;">
+    <tr>
+      <th scope="col">t/b</th>      
+      <th scope="col"style="text-align: center;">Dersiň ady</th>
+      <th scope="col" style="text-align:center;">Çözülüşiň ady</th>
+      <th scope="col" style="text-align:center;">Çözülüşiň beýany</th>
+      <th scope="col"style="text-align: center;">Talyp</th> 
+      <th scope="col"style="text-align: center;">Amallar</th>           
+    </tr>
+  </thead>
+  <tbody style="text-align: center;">
+    {% for solution in solutions %}
+      <tr>
+        <th scope="row">{{solution.id}}</th>
+        
+        <td>
+          {% for subject in subjects %}
+            {{ subject.subject_name if subject.id==hometask.subjectId }}
+          {% endfor %}
+        </td>
+        <td>{{solution.solution_name}}</td>
+        <td>{{ '' if solution.solution_description == None else solution.solution_description }}</td>
+        <td>
+          {% for student in students %}
+            {{student.full_name if student.id == solution.studentId}}
+          {% endfor %}
+        </td>
+        <td>
+          <a href="/static/attachments/{{solution.attachment}}" class="btn btn-warning">Ýükle</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}

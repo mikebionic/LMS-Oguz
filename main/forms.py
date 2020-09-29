@@ -33,3 +33,20 @@ class PostReferenceForm(FlaskForm):
 	attachment = FileField('Sapak ýükläň:',validators=[FileAllowed(
 		['mp4','mov','3gp','webm','jpg','jpeg','doc','docx','txt','odt','pdf','djvu'])])
 	submit = SubmitField('Ýükle')
+
+
+class PostHometaskForm(FlaskForm):
+	hometask_name = StringField('Ýumuşyň ady:',validators=[DataRequired()])
+	hometask_description = StringField('Beýany:')
+	subject = SelectField('Dersiň ady:',coerce=int,validators=[DataRequired()])
+	major = SelectField('Ugry:',coerce=int,validators=[DataRequired()])
+	attachment = FileField('Faýl ýükläň:')
+	submit = SubmitField('Ýükle')
+
+
+class PostSolutionForm(FlaskForm):
+	solution_name = StringField('Çözgüdiň ady:',validators=[DataRequired()])
+	solution_description = StringField('Beýany:')
+	completed = BooleanField()
+	attachment = FileField('Faýl ýükläň:')
+	submit = SubmitField('Ýükle')

@@ -14,8 +14,8 @@
       {{form.subject(class="form-control")}}
     </div>
     <div class="form-group col-md-6">
-      <label for="inputTema">{{ form.lesson_name.label }}</label>
-      {{ form.lesson_name(class="form-control",placeholder="Temanyň adyny giriziň")}}
+      <label for="inputTema">{{ form.hometask_name.label }}</label>
+      {{ form.hometask_name(class="form-control",placeholder="Ýumuşyň adyny giriziň")}}
     </div>
     <div class="form-group col-md-6">
       <label>{{ form.attachment.label }}</label>
@@ -23,8 +23,8 @@
       <label class="custom-file-label" for="customFile" style="margin-top: 40px;">Fayl saylaň</label>    
     </div>
     <div class="form-group col-md-12">
-      <label for="inputTema">{{ form.lesson_description.label }}</label>
-      {{ form.lesson_description(class="form-control",placeholder="Temanyň beýany")}}
+      <label for="inputTema">{{ form.hometask_description.label }}</label>
+      {{ form.hometask_description(class="form-control",placeholder="Beýany")}}
     </div>
     <div class="form-group col-md-12" align="center">
       {{ form.submit(class="btn btn-light", style="align-items: center; justify-content: center;") }}
@@ -41,31 +41,33 @@
       <th scope="col" style="text-align:center;">t/b</th>
       
       <th scope="col" style="text-align:center;">Dersiň ady</th>
-      <th scope="col" style="text-align:center;">Temanyň ady</th>
-      <th scope="col" style="text-align:center;">Temanyň beýany</th>
+      <th scope="col" style="text-align:center;">Ýumuşyň ady</th>
+      <th scope="col" style="text-align:center;">Ýumuşyň beýany</th>
       <th scope="col" style="text-align:center;">Ugry</th>
       <th colspan="2" style="text-align:center;">Amallar</th>      
     </tr>
   </thead>
   <tbody style="text-align: center;">
-    {% for lesson in lessons %}
+    {% for hometask in hometasks %}
       <tr>
-        <th scope="row">{{lesson.id}}</th>
+        <th scope="row">{{hometask.id}}</th>
         
         <td>
           {% for subject in subjects %}
-            {{ subject.subject_name if subject.id==lesson.subjectId }}
+            {{ subject.subject_name if subject.id==hometask.subjectId }}
           {% endfor %}
         </td>
-        <td>{{lesson.lesson_name}}</td>
-        <td>{{ '' if lesson.lesson_description == None else lesson.lesson_description }}</td>
+        <td>{{hometask.hometask_name}}</td>
+        <td>{{ '' if hometask.hometask_description == None else hometask.hometask_description }}</td>
         <td>
           {% for major in majors %}
-            {{ major.major_name if major.id==lesson.majorId }}
+            {{ major.major_name if major.id==hometask.majorId }}
           {% endfor %}
         </td>
-        <td><a href="/lessons/edit/{{lesson.id}}">Üýtget</a></td>   
-        <td><a href="/lessons/delete/{{lesson.id}}">Pozmak</a></td>
+        <td>
+          <a href="/hometasks/delete/{{hometask.id}}" class="btn btn-danger">Pozmak</a>
+          <a href="/hometasks/{{hometask.id}}/solutions" class="btn btn-info">Jogaplar</a>
+        </td>
       </tr>
     {% endfor %}
   </tbody>
