@@ -22,14 +22,15 @@
 				<a href="/">Esasy</a>
 				<a href="library">Kitaphana</a>
 				{% if current_user.is_authenticated %}
-				{% if current_user.user_type == 'teacher' %}
-				<a href="add_library_book">Kitap goş</a>
+					{% if current_user.user_type == 'teacher' %}
+						<a href="add_library_book">Kitap goş</a>
+					{% endif %}
 				{% endif %}
+				{% if current_user.is_authenticated %}
+					<a href="logout">Çykyş</a>
+				{% else %}
+					<a href="login">Giriş</a>
 				{% endif %}
-				<a href="projects">Taslamalar</a>
-				<a href="tutorials">Tutorials</a>
-				<a href="list">List of Sensors</a>
-				<a href="login">Giriş</a>
 			</nav>
 			<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
 		</div>

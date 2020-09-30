@@ -1,6 +1,35 @@
 {% extends "student/layout.html" %}
 {% block main %}
 
+<div class="container" style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f) ">
+<form method="POST" action="/sort/hometasks">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="Mugallym">Mugallym:</label>
+    <select name="teacher" class="form-control" id="Mugallym">
+      {% for teacher in teachers %}
+        <option>{{teacher.full_name}}</option>
+      {% endfor %}
+    </select>
+    </div>    
+    <div class="form-group col-md-6">
+      <label for="Ders">Dersiň ady:</label>
+    <select name="subject" class="form-control" id="ders">
+      {% for subject in subjects %}
+        <option>{{subject.subject_name}}</option>
+      {% endfor %}
+    </select>
+    </div>
+   
+   <div class="form-group col-md-12" align="center">
+   <button type="submit" class="btn btn-light">OK</button>   
+   </div>   
+  </div>      
+</form>
+</div>
+<br>  
+<br>
+
 <div class="container-fluid">
   <table class="table table-hover" style="text-align: center;">
   <thead style="background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f); justify-content:center;">

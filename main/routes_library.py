@@ -20,18 +20,6 @@ from .utils import save_attachment
 def home_page():
 	return render_template('library/index.html')
 
-@app.route('/projects')
-def projects_page():
-	return render_template('library/projects.html')
-
-@app.route('/tutorials')
-def tutorials_page():
-	return render_template('library/tutorials.html')
-
-@app.route('/list')
-def lists_page():
-	return render_template('library/list.html')
-
 @app.route("/library",methods=['GET','POST'])
 def library():
 	majors = Majors.query.all()

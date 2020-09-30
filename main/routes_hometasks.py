@@ -131,3 +131,28 @@ def post_solution(hometaskId):
 		return redirect('/hometasks')
 	return render_template ("student/post_solution.html",title="Çözülişi ýüklemek",
 		hometask=hometask,majors=majors,subjects=subjects,form=form)
+
+
+@app.route("/sort/hometasks",methods=['GET','POST'])
+@login_required
+def sort_hometasks():
+	hometasks = Hometask.query.order_by(Hometask.date_added).all()
+	majors = Majors.query.all()
+	subjects = Subjects.query.all()
+	teachers = User.query.filter_by(user_type="teacher").all()
+	
+	if request.method == 'POST':
+		teacher = request.form.get("teacher")
+		subject = request.form.get("subject")
+
+		try:
+			teacher = User.query.filter_by(full_name=teacher,user_type="teacher").first()
+			subject = Subjects.query.filter_by(subject_name=subject).first()
+			hometasks = Hometask.query.filter_by(subjectId=subject.id,teacherId=teacher.id).all()
+
+			return render_template ("student/hometasks.html",title="Öý işler",
+				hometasks=hometasks,majors=majors,subjects=subjects,teachers=teachers)
+
+		except Exception as ex:
+			print(ex)
+			redirect("/student")
