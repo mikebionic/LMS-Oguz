@@ -11,7 +11,21 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lms.db'
 db = SQLAlchemy(app)
 # #### lessons db and CRUD #####
 
-### lesson models ###
+class University(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	university_name = db.Column(db.String(100),nullable=False)
+	university_description = db.Column(db.String())
+	logo = db.Column(db.String(500))
+	faculties = db.relationship('Faculty',backref='university',lazy='joined')
+
+
+class Faculty(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	faculty_name = db.Column(db.String(100),nullable=False)
+	faculty_description = db.Column(db.String(500))
+	icon = db.Column(db.String(100))
+	universityId = db.Column(db.Integer,db.ForeignKey("university.id"))
+### Lesson models ###
 
 class Lessons(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
@@ -167,6 +181,43 @@ db.session.add(teacher)
 teacher = User(username="akmyradovaa",password="AA4444",
 	user_type="teacher",full_name="Aýlar Akmyradowa",department="Kompýuter ylymlary we tehnologiýalary")
 db.session.add(teacher)
-                    
+
+
+university = University(university_name="Türkmenistanyň Oguz han adyndaky inžener-tehnologiýalar uniwersiteti",
+	university_description="Türkmenistanyň Oguz han adyndaky inžener-tehnologiýalar uniwersiteti Ýaponiýanyň Sukuba uniwersiteti bilen hyzmatdaşlygy giňeldýär. Bilim, ylym we tehnologiýalar ulgamynda halkara hyzmatdaşlygyny giňeltmek meselesi Türkmenistanyň hökümet mejlisinde ara alnyp maslahatlaşyldy. Şu okuw ýylynda ýurdumyz üçin täze ugurlar boýunça hünärmenleri taýýarlamak maksady bilen Ýaponiýanyň bu ýokary okuw mekdebinden ýene-de birnäçe professorlary we mugallymlary çagyrmak meýilleşdirilýär.",
+	logo="ulogo.png")
+db.session.add(university)
+
+db.session.commit()
+
+faculty = Faculty(faculty_name="Dil öwreniş bölümi",
+	faculty_description="Uniwersitetde iňlis we ýapon dillerini öwrenmek üçin ähli şertler döredilendir. Lingofon otaglary, görkezme esbaplary, daşary ýurt dillerindäki kitaplar, okuw gollanmalary, ýokary derejeli professor-mugallymlar hemişe talyplaryň hyzmatyndadyr.",
+	icon=None,universityId=1)
+db.session.add(faculty)
+
+faculty = Faculty(faculty_name="Innowasiýalaryň ykdysadyýeti",
+	faculty_description="Bu fakultet “ykdysadyýet we innowasiýa” pudaklarynda işleýän, innowasion jemgyýeti döretmäge bäsleşige ukyply alymlary, tehniki bilermenleri, işewürleri, ykdysadyýetçileri, menejerleri, marketologlary taýýarlar.",
+	icon=None,universityId=1)
+db.session.add(faculty)
+
+faculty = Faculty(faculty_name="Biotehnologiýa we ekologiýa",
+	faculty_description="Häzirki wagtda uniwersitetiň Biotehnologiýa we ekologiýa fakultetinde biotehnologiýa, ekologiýa we tebigatdan peýdalanmak, öýjük we molekulýar biologiýa hem-de genetika we bioinžiniring ýaly dünýäde ileri tutulýan ugurlar boýunça ýokary bilimli hünärmenler taýýarlanylýar.",
+	icon=None,universityId=1)
+db.session.add(faculty)
+
+faculty = Faculty(faculty_name="Awtomatika we elektronika",
+	faculty_description="Häzirkizaman jemgyýetinde robotlar diňe bir önümçilikde däl, eýsem durmuş we öý şertlerinde hem giňden ulanylýar. Robotlar adamyň keselini bejermekden başlap, älemi öwrenmek pudaklaryna çenli durmuşyň ähli ýerlerinde ulanylýar. Ýakyn gelejekde robotlar ýönekeý serişde bolman, eýsem olar adam jemgyýetiniň aýrylmaz bölegi bolar.",
+	icon=None,universityId=1)
+db.session.add(faculty)
+
+faculty = Faculty(faculty_name="Himiki we nanotehnologiýa",
+	faculty_description="Energiýa we materiallar ýaşaýşyň we siwilizasiýalaryň, ylmyň we tehnikanyň ösüşiniň hereketlendiriji güýjüdir. Olar senagatyň dürli pudaklarynyň we ulag-aragatnaşyk ulgamynyň ösmeginde, maglumatlary ýygnamak, seljermek, başga ýerlere geçirmek, ähli tehnologiýalary döretmek we dolandyrmak üçin zerur bolan elektronikanyň kämilleşmeginde, şeýle-de ýaşaýşyň derejesini ýokarlandyrmak üçin zerur bolan enjamlaryň önümçiliginde innowasiýalaryň çeşmesi bolup hyzmat edýär.",
+	icon=None,universityId=1)
+db.session.add(faculty)
+
+faculty = Faculty(faculty_name="Kompýuter ylymlary we maglumat tehnologiýalary",
+	faculty_description="Maglumat ulgamlary we tehnologiýalary, Informatika we hasaplaýyş tehnikasy, Animasiýa we grafika dizaýny, Sanly ykdysadyýet, Mobil we tor inžiniringi, Sanly infrastruktura we kiberhowpsuzlyk, Amaly matematika we informatika ýaly dünýäde ileri tutulýan ugurlar boýunça ýokary bilimli hünärmenler taýýarlanylýar.",
+	icon=None,universityId=1)
+db.session.add(faculty)
 
 db.session.commit()

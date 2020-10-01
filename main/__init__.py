@@ -14,3 +14,4 @@ login_manager.login_message_category = 'info'
 from . import routes_library
 from . import routes_lms, models, forms
 from . import routes_hometasks
+from . import routes_configuration

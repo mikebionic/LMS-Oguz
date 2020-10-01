@@ -4,6 +4,13 @@ from wtforms import StringField,SubmitField,BooleanField,TextAreaField,SelectFie
 from wtforms.validators import DataRequired,Length,ValidationError
 
 
+class UniversityForm(FlaskForm):
+	university_name = StringField('Uniwersitetiň ady:',validators=[DataRequired()])
+	university_description = StringField('Beýany:')
+	logo = FileField('Logo:',validators=[FileAllowed(['png','img','jpg','jpeg'])])
+	submit = SubmitField('Üýtget')
+
+
 class UploadFileForm(FlaskForm):
 	file = FileField('Faýl ýükläň')
 	submit = SubmitField('Ýükle')

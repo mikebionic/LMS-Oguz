@@ -24,6 +24,22 @@ class User(db.Model, UserMixin):
 		return f"User('{self.username}')"
 
 
+class University(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	university_name = db.Column(db.String(),nullable=False)
+	university_description = db.Column(db.String())
+	logo = db.Column(db.String(500))
+	faculties = db.relationship('Faculty',backref='university',lazy='joined')
+
+
+class Faculty(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	faculty_name = db.Column(db.String(100),nullable=False)
+	faculty_description = db.Column(db.String(500))
+	icon = db.Column(db.String(100))
+	universityId = db.Column(db.Integer,db.ForeignKey("university.id"))
+
+
 class Lessons(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	lesson_name = db.Column(db.String(100),nullable=False)

@@ -12,13 +12,18 @@ from main import db
 
 from .forms import PostReferenceForm
 from .routes_lms import getMajors,getMajors
-from .models import Majors,Lessons,Reference
+from .models import Majors,Lessons,Reference,University
 from .utils import save_attachment
+from os import listdir
+from os.path import isfile, join
 
 @app.route('/')
 @app.route('/main')
 def home_page():
-	return render_template('library/index.html')
+	mypath = "main/static/library/images/slider"
+	sliders = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+	university = University.query.get(1)
+	return render_template('library/index.html',sliders=sliders,university=university)
 
 @app.route("/library",methods=['GET','POST'])
 def library():
