@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lms.db'
 
 db = SQLAlchemy(app)
 # #### lessons db and CRUD #####
-
+'''
 class University(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	university_name = db.Column(db.String(100),nullable=False)
@@ -18,7 +18,7 @@ class University(db.Model):
 	logo = db.Column(db.String(500))
 	faculties = db.relationship('Faculty',backref='university',lazy='joined')
 
-
+'''
 class Faculty(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	faculty_name = db.Column(db.String(100),nullable=False)
@@ -114,6 +114,14 @@ class User(db.Model, UserMixin):
 db.drop_all()
 db.create_all()
 
+# Required admin user
+
+admin = User(username="administrator",password="lms_system@root/key:nc326y9nrivf3rrpvlbjHVKCRDESWTAQ!2344IGJ(BpPM<>?><0UB)C3bn4ic0i-MNBVCX:{;>#>%>)cx[]",
+	user_type="admin",full_name="Administrator")
+db.session.add(admin)
+
+'''
+
 subject = Subjects(subject_name="Computer Programming")
 db.session.add(subject)
 subject = Subjects(subject_name="Web programming Practice")
@@ -157,11 +165,6 @@ db.session.add(major)
 major = Majors(major_name="Genetika we bioinziniring")
 db.session.add(major)
 
-# Required admin user
-
-admin = User(username="administrator",password="lms_system@root/key",
-	user_type="admin",full_name="Administrator")
-db.session.add(admin)
 
 # Exaple user insertions
 
@@ -219,5 +222,7 @@ faculty = Faculty(faculty_name="Kompýuter ylymlary we maglumat tehnologiýalary
 	faculty_description="Maglumat ulgamlary we tehnologiýalary, Informatika we hasaplaýyş tehnikasy, Animasiýa we grafika dizaýny, Sanly ykdysadyýet, Mobil we tor inžiniringi, Sanly infrastruktura we kiberhowpsuzlyk, Amaly matematika we informatika ýaly dünýäde ileri tutulýan ugurlar boýunça ýokary bilimli hünärmenler taýýarlanylýar.",
 	icon=None,universityId=1)
 db.session.add(faculty)
+
+'''
 
 db.session.commit()
