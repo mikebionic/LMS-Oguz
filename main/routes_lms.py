@@ -1,26 +1,28 @@
-from flask import (Flask,
-									render_template,
-									url_for,
-									flash,
-									redirect,
-									request,
-									Response,
-									abort)
+from flask import (
+	Flask,
+	render_template,
+	url_for,
+	flash,
+	redirect,
+	request,
+	Response,
+	abort)
 from main import app
 from main import db
-from flask_login import (login_user,
-												current_user,
-												logout_user,
-												login_required)
+from flask_login import (
+	login_user,
+	current_user,
+	logout_user,
+	login_required)
 
-from .models import (User,
-										Lessons,
-										Majors,
-										Subjects,
-										Attachments)
+from .models import (
+	User,
+	Lessons,
+	Majors,
+	Subjects,
+	Attachments)
 
-from .forms import (PostLessonForm,
-									AddAttachmentForm)
+from .forms import PostLessonForm,AddAttachmentForm
 from .utils import save_attachment
 
 

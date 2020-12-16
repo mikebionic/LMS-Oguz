@@ -1,10 +1,11 @@
-from flask import (render_template,
-									url_for,
-									flash,
-									redirect,
-									request,
-									Response,
-									abort)
+from flask import (
+	render_template,
+	url_for,
+	flash,
+	redirect,
+	request,
+	Response,
+	abort)
 from flask_login import login_user,current_user,logout_user,login_required
 
 from main import app
