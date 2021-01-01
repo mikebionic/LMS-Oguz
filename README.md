@@ -6,6 +6,11 @@ Learning Management System Web App
 + Leyli Atayeva
 + Muhammed Jepbarov
 
+**App Screenshots**
+![HomePage](docs/homepage.png)
+![LMS login](docs/lmslogin.png)
+![Student Login](docs/studentlogin.png)
+
 # Installation and usage
 
 > install reuqired dependencies:
